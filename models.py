@@ -43,9 +43,9 @@ model_attributes = {
 }
 
 
-class ResNetBottom(nn.Module):
+class NetBottom(nn.Module):
     def __init__(self, original_model):
-        super(ResNetBottom, self).__init__()
+        super(NetBottom, self).__init__()
         self.features = nn.Sequential(*list(original_model.children())[:-1])
 
     def forward(self, x):
@@ -54,9 +54,9 @@ class ResNetBottom(nn.Module):
         return x
 
 
-class ResNetTop(nn.Module):
+class NetTop(nn.Module):
     def __init__(self, original_model):
-        super(ResNetTop, self).__init__()
+        super(NetTop, self).__init__()
         self.features = nn.Sequential(*[list(original_model.children())[-1]])
         self.in_features = original_model.fc.in_features
         self.out_features = original_model.fc.out_features
@@ -82,7 +82,6 @@ import torch.nn.functional as F
 
 class BasicBlock(nn.Module):
     expansion = 1
-
     def __init__(self, in_planes, planes, stride=1):
         super(BasicBlock, self).__init__()
         self.conv1 = nn.Conv2d(

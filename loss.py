@@ -6,9 +6,11 @@ import numpy as np
 import sklearn
 
 class LossComputer:
-    def __init__(self, args, criterion, is_robust, dataset, 
-                 alpha=None, gamma=0.1, adj=None, min_var_weight=0, 
-                 step_size=0.01, normalize_loss=False, btl=False, is_val=False):
+    def __init__(
+        self, args, criterion, is_robust, dataset, 
+        alpha=None, gamma=0.1, adj=None, min_var_weight=0, 
+        step_size=0.01, normalize_loss=False, btl=False, is_val=False
+        ):
         self.criterion = criterion
         self.is_robust = is_robust
         self.gamma = gamma
@@ -45,7 +47,9 @@ class LossComputer:
 
         self.reset_stats()
 
-    def loss(self, yhat, y, group_idx=None, is_training=False, mix_up=False, y_onehot=None, return_group_loss=False):
+    def loss(self, yhat, y, group_idx=None, is_training=False, 
+             mix_up=False, y_onehot=None, return_group_loss=False
+             ):
         # compute per-sample and per-group losses
         if mix_up and is_training:
             per_sample_losses = - F.log_softmax(yhat, dim=-1) * y_onehot

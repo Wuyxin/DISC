@@ -9,9 +9,9 @@ from glob import glob
 
 import json
 from dataset.transform import transform_dict
-from models import ResNetBottom, ResNetTop
-from concept_utils import learn_concept_bank, ListDataset
-from config import ROOT
+from models import NetBottom, NetTop
+from concept_utils.concept_bank import learn_concept_bank, ListDataset
+from config import n_clusters
 
 import random
 import warnings
@@ -19,7 +19,7 @@ warnings.filterwarnings("ignore")
 
 def config():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--concept_dir", type=str, default=f'{ROOT}/broden_concepts',
+    parser.add_argument("--concept_dir", type=str, default=f'broden_concepts',
                     help="Directory containing concept images. See below for a detailed description.")
 
     parser.add_argument("--dataset", type=str, help="The dataset to use")
@@ -69,7 +69,7 @@ def main(args):
         print('Reading dict ', list(model.keys()))
         model = model['net'].module
     model = model.to(args.device)
-    backbone, top = ResNetBottom(model), ResNetTop(model)
+    backbone, top = NetBottom(model), NetTop(model)
     backbone = backbone.eval()
 
     print(f"Attempting to learn {len(concept_names)} concepts.")

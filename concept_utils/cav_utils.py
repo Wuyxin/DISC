@@ -30,7 +30,7 @@ class ListDataset:
         return image
 
 
-def learn_concept_bank(pos_loader, neg_loader, backbone, n_samples, C, device="cuda"):
+def get_cavs(pos_loader, neg_loader, backbone, n_samples, C, device="cuda"):
     """Learning CAVs and related margin stats.
     Args:
         pos_loader (torch.utils.data.DataLoader): A PyTorch DataLoader yielding positive samples for each concept
@@ -52,11 +52,11 @@ def learn_concept_bank(pos_loader, neg_loader, backbone, n_samples, C, device="c
     y_val = np.concatenate([np.ones(pos_act[n_samples:].shape[0]), np.zeros(neg_act[n_samples:].shape[0])], axis=0)
     concept_info = {}
     for c in C:
-        concept_info[c] = get_cavs(X_train, y_train, X_val, y_val, c)
+        concept_info[c] = get_concept_info(X_train, y_train, X_val, y_val, c)
     return concept_info
 
 
-def get_cavs(X_train, y_train, X_val, y_val, C):
+def get_concept_info(X_train, y_train, X_val, y_val, C):
     """Extract the concept activation vectors and the corresponding stats
 
     Args:

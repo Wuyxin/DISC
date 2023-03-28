@@ -5,16 +5,14 @@ from torch._C import Value
 import torch.nn as nn
 import torch.optim as optim
 
-from .cav_utils import ConceptBank, EasyDict
 
-
-def conceptual_counterfactual(embedding: torch.Tensor, label: torch.Tensor, concept_bank, model_top: nn.Module,
-                              # except for isic
-                              # alpha: float =1e-1, beta: float =1e-2, n_steps: int=50,
-                              alpha: float =0.2, beta: float =1e-2, n_steps: int=100,
-                              step_size: float=0.2, momentum: float =0.9, enforce_validity: bool=True,
-                              kappa="mean"):
-    """Generating conceptual counterfactual explanations.
+def conceptual_counterfactual(
+    embedding: torch.Tensor, label: torch.Tensor, concept_bank, model_top: nn.Module,
+    alpha: float =0.2, beta: float =1e-2, n_steps: int=100, step_size: float=0.2, 
+    momentum: float =0.9, enforce_validity: bool=True, kappa="mean"
+    ):
+    """
+    Generating conceptual counterfactual explanations.
 
     Args:
         embedding (torch.Tensor): Embedding of the image to explain.
@@ -38,7 +36,6 @@ def conceptual_counterfactual(embedding: torch.Tensor, label: torch.Tensor, conc
             
     """
     start_prediction = model_top(embedding).argmax(dim=1).detach().cpu().item()
-    
     max_margins = concept_bank.margin_info.max
     min_margins = concept_bank.margin_info.min
     concept_norms = concept_bank.norms
@@ -53,7 +50,6 @@ def conceptual_counterfactual(embedding: torch.Tensor, label: torch.Tensor, conc
     # Concept weights to explain the mistake
     # should be random
     W = nn.Parameter(torch.randn(1, concepts.shape[0], device=device), requires_grad=True)
-
     # Normalize the concept vectors
     normalized_C = max_margins * concepts / concept_norms
     # Compute the current distance of the sample to decision boundaries of SVMs
@@ -63,7 +59,6 @@ def conceptual_counterfactual(embedding: torch.Tensor, label: torch.Tensor, conc
                    concept_intercepts - torch.matmul(concepts, embedding.T))
     W_clamp_min = (min_margins * concept_norms -
                    concept_intercepts - torch.matmul(concepts, embedding.T))
-
     W_clamp_max = (W_clamp_max / (max_margins * concept_norms)).T
     W_clamp_min = (W_clamp_min / (max_margins * concept_norms)).T
 
@@ -83,10 +78,8 @@ def conceptual_counterfactual(embedding: torch.Tensor, label: torch.Tensor, conc
     W_clamp_min = torch.where(
         W_clamp_min > zeros, zeros, W_clamp_min).detach().flatten(1)
 
-    optimizer = optim.SGD([W], lr=step_size, momentum=momentum)
     history = []
-    
-
+    optimizer = optim.SGD([W], lr=step_size, momentum=momentum)
     for i in range(n_steps):
         optimizer.zero_grad()
         new_embedding = embedding + torch.matmul(W, normalized_C)
@@ -121,10 +114,7 @@ def conceptual_counterfactual(embedding: torch.Tensor, label: torch.Tensor, conc
     
     label = label.detach().cpu().item()
     # Check if the counterfactual could flip the label
-    if (new_out == label):
-        success = True
-    else:
-        success = False
+    success = new_out == label
     explanation = {"success": success,
                   "concept_scores": concept_scores,
                   "concept_scores_list": concept_names,

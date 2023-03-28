@@ -27,13 +27,55 @@ def check_args(args):
     if args.disc:
         assert args.erm_path is not None
 
+
 def set_required_grad(model, required_grad=True):
     for p in model.parameters():
         p.requires_grad = required_grad
     return model
 
+
+def set_log_dir(args):
+    common_string = f'reweight_groups={args.reweight_groups}-lr={args.lr}-' + \
+                    f'batch_size={args.batch_size}-n_epochs={args.n_epochs}-seed={args.seed}'
+    if args.disc:
+        method = 'DISC'
+        string = f'n_clusters={args.n_clusters}-{args.concept_categories}'
+    elif args.lisa_mix_up:
+        method = 'LISA'
+        string = f'mix_ratio={args.mix_ratio}-mix_alpha={args.mix_alpha}-' + \
+                 f'cut_mix={args.cut_mix}-alpha={args.alpha}'
+    elif args.jtt:
+        method = 'JTT'
+        string = f'upweight={args.jtt_upweight}'
+    elif args.rex:
+        method = 'REx'
+        string = f'penalty={args.rex_penalty}'
+    elif args.irm:
+        method = 'IRM'
+        string = f'penalty={args.irm_penalty}'
+    elif args.ibirm:
+        method = 'IBIRM'
+        string = f'penalty={args.ibirm_penalty}'
+    elif args.fish:
+        method = 'Fish'
+        string = f'meta_lr={args.meta_lr}'
+    elif args.robust:
+        method = 'GroupDRO'
+        string = f'robust_step_size={args.robust_step_size}'
+    elif args.coral:
+        method = 'Coral'
+        string =  f''
+    else:
+        method = 'ERM'
+        string =  f''
+    if len(string):
+        string += f'-{common_string}'
+    else:
+        string = common_string
+    args.log_dir = os.path.join(args.log_dir, args.dataset, method, string)
+
+
 def get_optimizer(args, model):
-    
     if args.optimizer == 'SGD':
         optimizer = torch.optim.SGD(
             filter(lambda p: p.requires_grad, model.parameters()),
@@ -77,29 +119,6 @@ def get_model(args, n_classes, d=None, resume=False):
         model = torchvision.models.densenet121(pretrained=pretrained)
         d = model.classifier.in_features
         model.classifier = nn.Linear(d, n_classes)
-
-    elif 'bert' in args.model:
-        if args.is_featurizer:
-            if args.model == 'bert':
-                from bert.bert import BertFeaturizer
-                featurizer = BertFeaturizer.from_pretrained("bert-base-uncased", **args.model_kwargs)
-                classifier = nn.Linear(featurizer.d_out, 5 if args.dataset == "Amazon" else n_classes)
-                model = torch.nn.Sequential(featurizer, classifier)
-            elif args.model == 'distilbert':
-                from bert.distilbert import DistilBertFeaturizer
-                featurizer = DistilBertFeaturizer.from_pretrained("distilbert-base-uncased", **args.model_kwargs)
-                classifier = nn.Linear(featurizer.d_out, 5 if args.dataset == "Amazon" else n_classes)
-                model = torch.nn.Sequential(featurizer, classifier)
-            else:
-                raise NotImplementedError
-
-        else:
-            from bert.bert import BertClassifier
-            model = BertClassifier.from_pretrained(
-                'bert-base-uncased',
-                num_labels=512,
-                **args.model_kwargs)
-
     else:
         raise ValueError('Model not recognized.')
     return model

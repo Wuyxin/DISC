@@ -1,4 +1,7 @@
 import argparse
+from dataset.load_data import dataset_attributes, shift_types
+from models import model_attributes
+from utils import ParseKwargs
 
 
 def parse_args():
@@ -61,17 +64,16 @@ def parse_args():
     parser.add_argument("--irm_penalty", default=1.0, type=float)
     parser.add_argument("--rex_penalty", default=10, type=float)
     parser.add_argument("--ibirm_penalty", default=10, type=float)
-    parser.add_argument("--group_by_domain", action='store_true', default=False)
     parser.add_argument("--meta_lr", default=1e-4, type=float)
     # disc
     parser.add_argument('--disc', action='store_true', default=False)
     parser.add_argument('--erm_path', type=str, help="Model path of ERM")
     parser.add_argument('--concept_bank_path', type=str)
-    parser.add_argument('--n_students', type=int, default=5)
+    parser.add_argument('--n_clusters', type=int, default=5)
     parser.add_argument('--topk', type=int, default=5)
     parser.add_argument('--cluster', choices=['kmeans', 'gmm'], default='gmm')
     parser.add_argument("--c_svm", default=0.1, type=float, help="Regularization for SVMs")
-    parser.add_argument('--concept_img_folder', type=str, default=f'{ROOT}/synthetic_concepts')
+    parser.add_argument('--concept_img_folder', type=str, default=f'synthetic_concepts')
     parser.add_argument('--n_concept_imgs', default=500, type=int)
     # Misc
     parser.add_argument('--seed', type=int, default=0)

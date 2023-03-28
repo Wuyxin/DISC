@@ -11,7 +11,7 @@ import torch
 import os
 import os.path as osp
 from tqdm import tqdm
-from models import ResNetBottom, ResNetTop
+from models import NetBottom, NetTop
 from concept_utils.cav_utils import get_embeddings
 
 
@@ -33,8 +33,8 @@ def cluter_assignment(args, train_data, model, logger):
     os.makedirs(save_path, exist_ok=True)
     assignments_path = osp.join(save_path, 'assignments.pt')
     
-    backbone = ResNetBottom(model).cuda()
-    model_top = ResNetTop(model).cuda()
+    backbone = NetBottom(model).cuda()
+    model_top = NetTop(model).cuda()
     cluster_dict = {l : {} for l in range(model_top.out_features)}
     loader = train_data.get_loader(train=False, batch_size=args.batch_size)
 
@@ -69,10 +69,10 @@ def cluter_assignment(args, train_data, model, logger):
             reducer.fit(reps)
             reps = reducer.transform(reps)
             if args.cluster == 'kmeans':
-                kmeans = KMeans(n_clusters=args.n_students, random_state=0).fit(reps)
+                kmeans = KMeans(n_clusters=args.n_clusters, random_state=0).fit(reps)
                 cluters_ = kmeans.labels_
             elif args.cluster == 'gmm':
-                gm = GaussianMixture(n_components=args.n_students).fit(reps)
+                gm = GaussianMixture(n_components=args.n_clusters).fit(reps)
                 cluters_ = gm.predict(reps)
             silhouette_score.append(sklearn.metrics.silhouette_score(reps, cluters_))
             unique_clusters, counts = np.unique(cluters_, return_counts=True)

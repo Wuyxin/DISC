@@ -56,7 +56,7 @@ srun -p jamesz -G 1 --cpus-per-gpu=2 --time=3:00:00 python run_expt.py -s confou
 
 # Owl ood
 ROOT=/oak/stanford/groups/jamesz/shirwu/Owl
-srun -p jamesz -G 1 --cpus-per-gpu=2 --time=2-00:00:00 --mem 128GB  python run_expt.py -s confounder -d ISIC -t label -c hair --lr 0.0005 --batch_size 16 --weight_decay 1e-5 --model resnet50 --n_epochs 100  --gamma 0.1 --generalization_adjustment 0 --root_dir $ROOT/data/isic/ --intervene_grad_reset --concept_bank_path $ROOT/logs/isic/ERM_ood_val/syn-concept_bank_500_t/last_model_0.1_400.pkl --log_dir $ROOT/logs/isic/Owl_ood_val/final-C=0.1-n_students=3-topk=20_500_t --concept_img_folder /oak/stanford/groups/jamesz/shirwu/synthetic_concepts --n_students 3 --topk 20 --mix_ent --syn --pretrained_model_path $ROOT/logs/isic/ERM_ood_val/last_model.pth --save_best --save_last
+srun -p jamesz -G 1 --cpus-per-gpu=2 --time=2-00:00:00 --mem 128GB  python run_expt.py -s confounder -d ISIC -t label -c hair --lr 0.0005 --batch_size 16 --weight_decay 1e-5 --model resnet50 --n_epochs 100  --gamma 0.1 --generalization_adjustment 0 --root_dir $ROOT/data/isic/ --intervene_grad_reset --concept_bank_path $ROOT/logs/isic/ERM_ood_val/syn-concept_bank_500_t/last_model_0.1_400.pkl --log_dir $ROOT/logs/isic/Owl_ood_val/final-C=0.1-n_clusters=3-topk=20_500_t --concept_img_folder /oak/stanford/groups/jamesz/shirwu/synthetic_concepts --n_clusters 3 --topk 20 --mix_ent --syn --pretrained_model_path $ROOT/logs/isic/ERM_ood_val/last_model.pth --save_best --save_last
 
 # Owl id
 # ink
@@ -64,7 +64,7 @@ SEED=1
 STUDENTS=3
 conda activate torch
 ROOT=/oak/stanford/groups/jamesz/shirwu/Owl
-srun -p jamesz -G 1 --cpus-per-gpu=2 --time=3-00:00:00 --mem 50GB python run_expt.py -s confounder -d ISIC -t label -c ink --lr 0.0005 --batch_size 16 --weight_decay 1e-5 --model resnet50 --n_epochs 100  --gamma 0.1 --generalization_adjustment 0 --root_dir $ROOT/data/isic/ --intervene_grad_reset --concept_bank_path $ROOT/logs/isic/group_$SEED/ERM/syn-concept_bank_500_ct/last_model_0.1_400.pkl --log_dir $ROOT/logs/isic/group_$SEED/Owl/final-C=0.1-n_students=$STUDENTS-topk=10_umap_500_ct_cluster_correct_ink --concept_img_folder /oak/stanford/groups/jamesz/shirwu/synthetic_concepts --n_students $STUDENTS --topk 10 --mix_ent --syn --pretrained_model_path $ROOT/logs/isic/group_$SEED/ERM/last_model.pth --save_best --save_last --seed $SEED --num_concept_img 500
+srun -p jamesz -G 1 --cpus-per-gpu=2 --time=3-00:00:00 --mem 50GB python run_expt.py -s confounder -d ISIC -t label -c ink --lr 0.0005 --batch_size 16 --weight_decay 1e-5 --model resnet50 --n_epochs 100  --gamma 0.1 --generalization_adjustment 0 --root_dir $ROOT/data/isic/ --intervene_grad_reset --concept_bank_path $ROOT/logs/isic/group_$SEED/ERM/syn-concept_bank_500_ct/last_model_0.1_400.pkl --log_dir $ROOT/logs/isic/group_$SEED/Owl/final-C=0.1-n_clusters=$STUDENTS-topk=10_umap_500_ct_cluster_correct_ink --concept_img_folder /oak/stanford/groups/jamesz/shirwu/synthetic_concepts --n_clusters $STUDENTS --topk 10 --mix_ent --syn --pretrained_model_path $ROOT/logs/isic/group_$SEED/ERM/last_model.pth --save_best --save_last --seed $SEED --num_concept_img 500
 
 # ablation
 SEED=5

@@ -3,16 +3,18 @@ import os.path as osp
 import numpy as np
 from tqdm import tqdm
 from datetime import datetime
-from models import ResNetBottom, ResNetTop
-from concept_utils import conceptual_counterfactual
+from models import NetBottom, NetTop
+from concept_utils.cce_utils import conceptual_counterfactual
 
 
 '''
 Given a concept bank containing concept actiave vectors, 
 filter important concepts
 '''
-def generate_top_concepts(model, loader, concept_bank, log_dir, 
-                          resume_path=None, save=True, temperature=1.0):
+def generate_top_concepts(
+    model, loader, concept_bank, log_dir, 
+    resume_path=None, save=True, temperature=1.0
+    ):
     print('Generating top concepts')
     cf_tensors_path = osp.join(log_dir, 'cf_tensors.pt') if resume_path is None else resume_path
     log_file_path = osp.join(log_dir, 'concept_log')
@@ -20,18 +22,14 @@ def generate_top_concepts(model, loader, concept_bank, log_dir,
     model = model.eval()
     for p in model.parameters():
         p.requires_grad = False
-    backbone, model_top = ResNetBottom(model), ResNetTop(model)
+    backbone, model_top = NetBottom(model), NetTop(model)
     C = model_top.out_features 
     cnt = 0
     if not osp.exists(cf_tensors_path):
         t1 = datetime.now()
         cf_tensors = {label: {'pos': [], 'neg': []} for label in range(C)}
         for batch in loader:
-
-            x = batch[0].cuda()
-            y = batch[1].cuda()
-            y = y.item()
-
+            x, y = batch[0].cuda(), batch[1].cuda().item()
             embedding = backbone(x)
             prediction = model_top(embedding)
             if prediction.argmax(-1).item() == y:

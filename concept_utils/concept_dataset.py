@@ -13,8 +13,8 @@ class ConceptDataset(Dataset):
     """
     Concept dataset
     Args: 
-        args : Arguments, see run_expt.py
-        root_dir (str): Arguments, see run_expt.py
+        args : Arguments, see args.py
+        root_dir (str): Arguments, see args.py
         concept_names (list([str, str, ...])): Concepts names in the concept dataset
         concept_probs (list([float, float, ...])): Concept probabilities used for sampling
         model_type (str, optional): Type of model on the dataset, see models.py
@@ -23,11 +23,12 @@ class ConceptDataset(Dataset):
         
     """
 
-    def __init__(self, args, root_dir,
-                 concept_names, 
-                 concept_probs=None,
-                 model_type=None,
-                 augment_data=False):
+    def __init__(
+        self, args, root_dir,
+        concept_names, 
+        concept_probs=None,
+        model_type=None,
+        augment_data=False):
         
         self.args = args
         self.root_dir = root_dir

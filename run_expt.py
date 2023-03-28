@@ -1,5 +1,5 @@
 import os
-import os.apth as osp
+import os.path as osp
 
 import numpy as np
 import pandas as pd
@@ -13,35 +13,22 @@ from dataset.cifar10_dataset import prepare_cifar10_data
 from dataset.dro_dataset import DRODataset
 from dataset.folds import Subset, get_fold
 from dataset.load_data import dataset_attributes, shift_types, prepare_data, log_data, log_meta_data
-from utils import set_seed, Logger, CSVBatchLogger, log_args, get_model, check_args
-from config import ROOT
+from utils import set_seed, Logger, CSVBatchLogger, log_args, get_model, check_args, set_log_dir
+from args import parse_args
 
 
 if __name__=='__main__':
     # Load args
     args = parse_args()
+    set_log_dir(args)
     check_args(args)
     set_seed(args.seed)
-
-    # Set up experiment name
-    exp_string = args.dataset
-    if args.robust: exp_string += '_robust'
-    if args.reweight_groups: exp_string += '_reweight'
-    if eval(args.generalization_adjustment) > 0: exp_string += '_adjust'
-    if args.lisa_mix_up:
-        exp_string += f'_mix_up_{args.mix_alpha}'
-        exp_string += '_cut_mix' if args.cut_mix else ""
-    if args.dataset == 'MetaDatasetCatDog':
-        exp_string += f'_dog_{int(args.dog_group)}'
-    if args.weight_decay >= 0.01:
-        exp_string += f"_penalty_{args.weight_decay}"
-    exp_string += f'_{args.seed}'
 
     ## Initialize logs
     if not osp.exists(args.log_dir):
         os.makedirs(args.log_dir)
     args.mode = 'a' if (osp.exists(osp.join(args.log_dir, 'last_model.pth')) and args.resume) else 'w'
-    logger = Logger(osp.join(args.log_dir, f'{exp_string}_log.txt'), args.mode)
+    logger = Logger(osp.join(args.log_dir, f'log.txt'), args.mode)
 
     # Prepare data
     if args.dataset == 'CIFAR10':
@@ -82,9 +69,9 @@ if __name__=='__main__':
                 )
             train_loader[i] = subset.get_loader(train=True, reweight_groups=False, **args.loader_kwargs)
     else:
-        train_loader = train_data.get_loader(train=True, args.reweight_groups, **args.loader_kwargs)
+        train_loader = train_data.get_loader(train=True, reweight_groups=args.reweight_groups, **args.loader_kwargs)
     test_loader = test_data.get_loader(train=False, reweight_groups=None, **args.loader_kwargs)
-    val_loader = val_data.get_loader(val_data, train=False, reweight_groups=None, **args.loader_kwargs)
+    val_loader = val_data.get_loader(train=False, reweight_groups=None, **args.loader_kwargs)
 
     # Gather all loaders and datasets
     data = {
@@ -92,8 +79,8 @@ if __name__=='__main__':
         'test_data': test_data,
         'val_data': val_data,
         'train_loader': train_loader,
-        'test_loader': test_loader
-        'val_loader': val_loader,
+        'test_loader': test_loader,
+        'val_loader': val_loader
         }
 
     ## Output logger to file
@@ -123,7 +110,7 @@ if __name__=='__main__':
 
     # Get resume information if needed
     if args.resume:
-        df = pd.read_csv(osp.join(args.log_dir, f'{exp_string}_test.csv'))
+        df = pd.read_csv(osp.join(args.log_dir, f'test.csv'))
         epoch_offset = df.loc[len(df)-1,'epoch']+1
         logger.write(f'starting from epoch {epoch_offset}')
     else:
@@ -133,23 +120,22 @@ if __name__=='__main__':
     csv_loggers = {}
     for split in ['train', 'test', 'val']:
         csv_loggers[split] = CSVBatchLogger(
-            args, osp.join(args.log_dir, f'{exp_string}_{split}.csv'), 
+            args, osp.join(args.log_dir, f'{split}.csv'), 
             data[f'{split}_data'].n_groups, mode=args.mode
             )
-
+            
     # Training
     train(
         args, model, criterion, 
         data, logger, csv_loggers, 
-        n_classes, csv_name=args.fold, 
-        exp_string=exp_string, epoch_offset=epoch_offset
+        args.n_classes, epoch_offset=epoch_offset
         )
     for csv_logger in csv_loggers:
         csv_logger.close()
 
     # Print results
-    val_csv = pd.read_csv(osp.join(args.log_dir, f'{exp_string}_val.csv'))
-    test_csv = pd.read_csv(osp.join(args.log_dir, f'{exp_string}_test.csv'))
+    val_csv = pd.read_csv(osp.join(args.log_dir, f'val.csv'))
+    test_csv = pd.read_csv(osp.join(args.log_dir, f'test.csv'))
     idx = np.argmax(val_csv['worst_group_acc'].values)
     print(test_csv[['worst_group_acc', 'mean_differences', "group_avg_acc", "avg_acc"]].iloc[idx])
 

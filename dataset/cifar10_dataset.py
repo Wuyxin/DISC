@@ -8,7 +8,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import Subset, DataLoader
 
 from dataset.confounder_utils import prepare_confounder_data, prepare_group_confounder_data
-from dataset.data import dataset_attributes
+from dataset.load_data import dataset_attributes
 from dataset.transform import transform_dict
 
 
@@ -17,7 +17,7 @@ def prepare_cifar10_data(args):
     Prepare CIFAR10 data, where the corrupted testing data is from CIFAR-10-C 
 
     Args: 
-        args: Arguments, see run_expt.py
+        args: Arguments, see args.py
 
     Returns: 
         datasets (tuple([Dataset, Dataset, Dataset]))
