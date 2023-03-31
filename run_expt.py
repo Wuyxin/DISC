@@ -1,8 +1,10 @@
 import os
 import os.path as osp
-
 import numpy as np
 import pandas as pd
+import warnings
+warnings.filterwarnings("ignore")
+
 import torch
 import torch.nn as nn
 import torchvision
@@ -10,11 +12,13 @@ import torchvision
 from train import train
 from models import model_attributes
 from dataset.cifar10_dataset import prepare_cifar10_data
+from dataset.fmow_dataset import prepare_fmow_data
 from dataset.dro_dataset import DRODataset
 from dataset.folds import Subset, get_fold
 from dataset.load_data import dataset_attributes, shift_types, prepare_data, log_data, log_meta_data
 from utils import set_seed, Logger, CSVBatchLogger, log_args, get_model, check_args, set_log_dir
 from args import parse_args
+
 
 
 if __name__=='__main__':
@@ -33,6 +37,8 @@ if __name__=='__main__':
     # Prepare data
     if args.dataset == 'CIFAR10':
         train_data, val_data, test_data = prepare_cifar10_data(args)
+    elif args.dataset == 'FMoW':
+        train_data, val_data, test_data = prepare_fmow_data(args)
     elif args.shift_type == 'confounder':
         train_data, val_data, test_data = prepare_data(args, train=True)
     elif args.shift_type == 'label_shift_step': # not used
@@ -67,9 +73,12 @@ if __name__=='__main__':
                 n_classes=train_data.n_classes, 
                 group_str_fn=train_data.group_str
                 )
-            train_loader[i] = subset.get_loader(train=True, reweight_groups=False, **args.loader_kwargs)
+            train_loader[i] = subset.get_loader(
+                train=True, reweight_groups=False, **args.loader_kwargs
+                )
     else:
-        train_loader = train_data.get_loader(train=True, reweight_groups=args.reweight_groups, **args.loader_kwargs)
+        train_loader = train_data.get_loader(reweight_groups=args.reweight_groups, 
+                                             train=True, **args.loader_kwargs)
     test_loader = test_data.get_loader(train=False, reweight_groups=None, **args.loader_kwargs)
     val_loader = val_data.get_loader(train=False, reweight_groups=None, **args.loader_kwargs)
 
@@ -130,12 +139,12 @@ if __name__=='__main__':
         data, logger, csv_loggers, 
         args.n_classes, epoch_offset=epoch_offset
         )
-    for csv_logger in csv_loggers:
-        csv_logger.close()
+    for split in ['train', 'test', 'val']:
+        csv_loggers[split].close()
 
-    # Print results
+    # Final results
     val_csv = pd.read_csv(osp.join(args.log_dir, f'val.csv'))
     test_csv = pd.read_csv(osp.join(args.log_dir, f'test.csv'))
-    idx = np.argmax(val_csv['worst_group_acc'].values)
-    print(test_csv[['worst_group_acc', 'mean_differences', "group_avg_acc", "avg_acc"]].iloc[idx])
-
+    metric = 'roc_auc' if args.dataset == 'ISIC' else 'worst_group_acc'
+    idx = np.argmax(val_csv[metric].values)
+    logger.write(str(test_csv[[metric, 'mean_differences', "group_avg_acc", "avg_acc"]].iloc[idx]))

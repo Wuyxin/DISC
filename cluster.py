@@ -29,33 +29,30 @@ def cluter_assignment(args, train_data, model, logger):
         cluster_dict: Dictionary of the clustering results
             
     """
-    save_path = osp.join(args.log_dir, 'cluster')
-    os.makedirs(save_path, exist_ok=True)
-    assignments_path = osp.join(save_path, 'assignments.pt')
+    save_dir = osp.join(args.log_dir, 'cluster')
+    os.makedirs(save_dir, exist_ok=True)
+    assignments_path = osp.join(save_dir, 'assignments.pt')
     
     backbone = NetBottom(model).cuda()
     model_top = NetTop(model).cuda()
-    cluster_dict = {l : {} for l in range(model_top.out_features)}
+    cluster_dict = {l : {} for l in range(args.n_classes)}
     loader = train_data.get_loader(train=False, batch_size=args.batch_size)
 
     # If clustering results already exist, then use the saved one
     if not osp.exists(assignments_path):
         # get instance embeddings and accuracies
-        embeddings = np.array([])
-        labels, ids, acc, gs = [], [], [], []
+        embeddings, labels, ids, acc, gs = [], [], [], [], []
         for batch in tqdm(loader):
             x, y = batch[0].cuda(), batch[1].cuda()
-            try:
-                g = batch[2].detach().cpu().numpy()
-            except:
-                g = np.zeros(len(x), dtype=np.int32)
+            g = batch[2].detach().cpu().numpy()
             embs = backbone(x)
             outputs = model_top(embs)
             embs = embs.detach().cpu().numpy()
-            embeddings = np.concatenate([embeddings, embs], axis=0)
+            embeddings.append(embs)
             gs.append(g)
             labels.append(y.detach().cpu().numpy())
             acc.append((outputs.argmax(dim=1) == y).float().detach().cpu().numpy())
+        embeddings = np.concatenate(embeddings, axis=0)
         gs = np.concatenate(gs)
         labels = np.concatenate(labels)
         acc = np.concatenate(acc).reshape(-1, 1)
@@ -78,11 +75,12 @@ def cluter_assignment(args, train_data, model, logger):
             unique_clusters, counts = np.unique(cluters_, return_counts=True)
             for c in range(len(unique_clusters)):
                 cluster_dict[l][c] = ids[labels==l][cluters_==c]
-            logger.write(f'\nClass {l}; Cluter Size {counts}\n')
-            # for visualization
-            torch.save(reps, osp.join(info_path, f'cluster_rep_class={l}.pt'))
-            torch.save(cluters_, osp.join(info_path, f'cluster_idx_class={l}.pt'))
-            torch.save(gs[labels==l], osp.join(info_path, f'group_idx_class={l}.pt'))
+            logger.write(f'\nClass {l}: cluster size {counts}\n')
+
+            # Save for visualization
+            torch.save(reps, osp.join(save_dir, f'cluster_rep_class={l}.pt'))
+            torch.save(cluters_, osp.join(save_dir, f'cluster_idx_class={l}.pt'))
+            torch.save(gs[labels==l], osp.join(save_dir, f'group_idx_class={l}.pt'))
         logger.write(f'Silhouette Scores: {silhouette_score}\n  Mean: {np.mean(silhouette_score)}\n')
         torch.save(cluster_dict, assignments_path)
     logger.flush()

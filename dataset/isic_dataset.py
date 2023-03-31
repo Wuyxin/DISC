@@ -65,8 +65,8 @@ class ISICDataset(ConfounderDataset):
             metadata_new = metadata_new[metadata_new['_merge'] == 'left_only']
             metadata['train'] = metadata_new.drop(columns=['_merge'])
         
-        self.train_transform = get_transform_ISIC(None, train=True, augment_data=augment_data)
-        self.eval_transform = get_transform_ISIC(None, train=False, augment_data=augment_data)
+        self.train_transform = get_transform_ISIC(args.model, train=True, augment_data=augment_data)
+        self.eval_transform = get_transform_ISIC(args.model, train=False, augment_data=augment_data)
         
         self.precomputed = True
         self.pretransformed = True

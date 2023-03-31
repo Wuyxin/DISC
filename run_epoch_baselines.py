@@ -30,9 +30,7 @@ def run_epoch(
     with torch.set_grad_enabled(is_training):
         for batch_idx, batch in enumerate(prog_bar_loader):
             batch = tuple(t.cuda() for t in batch)
-            x, y = batch[0], batch[1]
-            try: g = batch[2]
-            except: g = torch.zeros(len(x)).long().cuda()
+            x, y, g = batch[0], batch[1], batch[2]
             y_onehot = None
             if args.mix_up and (is_training):
                 if args.dataset == 'CIFAR10':

@@ -35,11 +35,16 @@ def set_required_grad(model, required_grad=True):
 
 
 def set_log_dir(args):
-    common_string = f'reweight_groups={args.reweight_groups}-lr={args.lr}-' + \
-                    f'batch_size={args.batch_size}-n_epochs={args.n_epochs}-seed={args.seed}'
+    common_string = f'reweight_groups={int(args.reweight_groups)}-augment={int(args.augment_data)}-' + \
+                    f'lr={args.lr}-batch_size={args.batch_size}-n_epochs={args.n_epochs}'
+    if args.dataset == 'ISIC':
+        common_string += f'-trapset_id={args.seed}'
+    else:
+        common_string += f'-seed={args.seed}'
     if args.disc:
         method = 'DISC'
-        string = f'n_clusters={args.n_clusters}-{args.concept_categories}'
+        string = f'{args.concept_categories}-n_concept_imgs={int(args.n_concept_imgs)}-' + \
+                 f'n_clusters={args.n_clusters}'
     elif args.lisa_mix_up:
         method = 'LISA'
         string = f'mix_ratio={args.mix_ratio}-mix_alpha={args.mix_alpha}-' + \
@@ -97,6 +102,8 @@ def get_model(args, n_classes, d=None, resume=False):
     if resume:
         model = torch.load(os.path.join(args.log_dir, 'last_model.pth'))
     elif args.dataset == 'CIFAR10':
+        # Use another resnet50 implementation
+        # https://github.com/kuangliu/pytorch-cifar
         model = ResNet50()
     elif model_attributes[args.model]['feature_type'] in ('precomputed', 'raw_flattened'):
         assert pretrained and d
@@ -175,7 +182,7 @@ def get_scheduler(args, optimizer, t_total):
         
     elif args.scheduler == 'StepLR':
         scheduler = StepLR(optimizer,
-                            t_total,
+                            step_size=1,
                             gamma=args.step_gamma)
 
     else:

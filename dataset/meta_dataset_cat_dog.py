@@ -72,8 +72,7 @@ class MetaDatasetCatDog(ConfounderDataset):
         # split test and validation set
         np.random.seed(100)
         test_idxes = np.arange(len(self.test_group_array))
-        val_idxes, _ = train_test_split(np.arange(len(test_idxes)), 
-                                                test_size=0.85, random_state=0)
+        val_idxes, _ = train_test_split(np.arange(len(test_idxes)), test_size=0.85, random_state=0)
         test_idxes = np.setdiff1d(test_idxes, val_idxes)
         
         # define the split array
@@ -158,5 +157,4 @@ class MetaDatasetCatDog(ConfounderDataset):
                         ys.append(animal_count)
                     id_count += 1
             animal_count += 1
-
         return filenames, np.array(group_ids), np.array(ys)

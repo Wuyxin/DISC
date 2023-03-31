@@ -1,7 +1,6 @@
 import os
 from PIL import Image
 import numpy as np
-
 from torch.utils.data import Dataset
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.sampler import WeightedRandomSampler
@@ -46,7 +45,7 @@ class ConceptDataset(Dataset):
                                          train=True,
                                          augment_data=augment_data)
         self.data = []
-        self.concept_label = []
+        self.concept_ids = []
         for concept_id, concept in enumerate(concept_names):
             concept_dir = os.path.join(self.root_dir, concept, 'positives')
             for file_path in os.listdir(concept_dir)[:args.n_concept_imgs]:
@@ -56,10 +55,10 @@ class ConceptDataset(Dataset):
                 img = self.train_transform(img)
                 
                 self.data.append(img)
-                self.concept_label.append(concept_id)
+                self.concept_ids.append(concept_id)
                 
         if not concept_probs == None:
-            self.concept_label = np.array(self.concept_label)
+            self.concept_ids = np.array(self.concept_ids)
             self.update_concept_prob(concept_probs)
 
     def __getitem__(self, idx):
@@ -67,6 +66,16 @@ class ConceptDataset(Dataset):
     
     def __len__(self):
         return len(self.data)
+
+    def get_concept_data(self, concept, size=None):
+        if concept in self.concept_names:
+            concept_id = list(self.concept_names).index(concept)
+            indices = np.arange(len(self.concept_ids))[self.concept_ids == concept_id]
+            if size is not None:
+               indices = np.random.choice(indices, size)
+            return [self.data[index] for index in indices]
+        else:
+            return []
 
     def update_concept_prob(self, concept_probs):
         self.concept_probs = np.array(concept_probs)
@@ -77,7 +86,7 @@ class ConceptDataset(Dataset):
         if not concept_probs is None:
             self.update_concept_prob(concept_probs)
             
-        weights = self.concept_probs[self.concept_label]
+        weights = self.concept_probs[self.concept_ids]
         assert not np.isnan(weights).any()
         sampler = WeightedRandomSampler(weights, len(self), replacement=True)
         loader = DataLoader(

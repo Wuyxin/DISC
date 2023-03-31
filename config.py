@@ -1,1 +1,0 @@
-ROOT = '/oak/stanford/groups/jamesz/shirwu'

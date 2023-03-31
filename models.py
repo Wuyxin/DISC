@@ -58,8 +58,6 @@ class NetTop(nn.Module):
     def __init__(self, original_model):
         super(NetTop, self).__init__()
         self.features = nn.Sequential(*[list(original_model.children())[-1]])
-        self.in_features = original_model.fc.in_features
-        self.out_features = original_model.fc.out_features
 
     def forward(self, x):
         x = self.features(x)

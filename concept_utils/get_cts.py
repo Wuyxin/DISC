@@ -22,10 +22,8 @@ def run_one_step_and_get_cts(
     with torch.set_grad_enabled(is_training):
         batch = loader_iter.next()
         batch = tuple(t.cuda() for t in batch)
-        x, y = batch[0], batch[1]
+        x, y, g = batch[0], batch[1], batch[2]
         y_onehot = None
-        try: g = batch[2]
-        except: g = torch.zeros(len(x)).long().cuda()
 
         # Detach the encoder part
         emb = backbone(x).detach()

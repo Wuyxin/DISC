@@ -8,7 +8,7 @@ import torch.optim as optim
 
 def conceptual_counterfactual(
     embedding: torch.Tensor, label: torch.Tensor, concept_bank, model_top: nn.Module,
-    alpha: float =0.2, beta: float =1e-2, n_steps: int=100, step_size: float=0.2, 
+    step_size: float=0.1, alpha: float =0.1, beta: float=1e-2, n_steps: int=100, 
     momentum: float =0.9, enforce_validity: bool=True, kappa="mean"
     ):
     """
@@ -123,4 +123,10 @@ def conceptual_counterfactual(
                   "prediction": start_prediction,
                   "label": label}
     return EasyDict(explanation)
+
+
+class EasyDict(dict):
+    __getattr__ = dict.get
+    __setattr__ = dict.__setitem__
+    __delattr__ = dict.__delitem__
 

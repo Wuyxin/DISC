@@ -25,10 +25,7 @@ class LossComputer:
         self.is_val = is_val
         print("Loss n groups:", self.n_groups)
 
-        if self.args.dataset == 'CIFAR10':
-            self.group_counts = dataset.group_counts.cuda()
-        else:
-            self.group_counts = dataset.group_counts().cuda()
+        self.group_counts = dataset.group_counts().cuda()
         self.group_frac = self.group_counts/self.group_counts.sum()
         self.group_str = dataset.group_str
 
@@ -61,7 +58,6 @@ class LossComputer:
         
         if self.args.dataset == 'ISIC':
             prob = F.softmax(yhat, dim=-1)[:,1].view(-1)
-            # prob = yhat.argmax(dim=-1).view(-1)
             self.probs.append(prob.detach().cpu())
             self.ys.append(y.detach().cpu())
         

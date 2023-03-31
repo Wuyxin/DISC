@@ -13,49 +13,36 @@ from utils import CSVLogger, set_required_grad, get_optimizer, get_scheduler
 from run_epoch_disc import run_epoch_disc
 from run_epoch_baselines import run_epoch, run_epoch_mix_every_batch
 
+from cluster import cluter_assignment
 from dataset.folds import Subset
 from dataset.dro_dataset import DRODataset
 from models import NetBottom, NetTop
 from concept_utils.concept_dataset import ConceptDataset
-from concept_utils.cluster import cluter_assignment
-from concept_utils.concept_bank import load_concept_bank
-from concept_utils.generate_top_concepts import generate_top_concepts
+from concept_utils.filter_concepts import filter_relevant_concepts
 
 
 def train(
     args, model, criterion, dataset, logger, 
     csv_loggers, n_classes, epoch_offset
     ):      
-    C = dataset['train_data'].n_classes
     if args.disc:
-        # 1. Filter top concepts to reduce computational cost
-        concept_bank = load_concept_bank(args.concept_bank_path, 'cuda')
-        normalized_concepts = concept_bank.normalized_concepts
-        single_datum_loader = dataset['train_data'].get_loader(
-            train=False, 
-            batch_size=1, 
-            reweight_groups=None
-            )
         erm_model = torch.load(args.erm_path)
-        top_concepts = generate_top_concepts(
-            erm_model, single_datum_loader, 
-            concept_bank, args.log_dir, 
-            resume_path=args.owl_resume_path
-            )
-        # .. and construct dataset containing images of top concepts
+        # Filter relevent concepts to reduce computational cost
+        relevant_concepts = filter_relevant_concepts(args, erm_model, dataset['train_data'])
+        # Construct datasets of concept images
         concept_data = {}
-        for c in range(C):
-            concept_names, concept_probs = top_concepts[c]
+        for c in range(args.n_classes):
+            concept_names, concept_probs = relevant_concepts[c]
             concept_data[c] = ConceptDataset(
                 args, root_dir=args.concept_img_folder,
-                concept_names=concept_names[:args.topk], 
-                concept_probs=concept_probs[:args.topk],
-                split='positives',
+                concept_names=concept_names, 
+                concept_probs=concept_probs,
                 model_type=args.model,
                 augment_data=args.augment_data
                 )
-        all_concept_names = [item for _list in [concept_data[c].concept_names for c in range(C)] for item in _list]
-        # 2. Conduct clutering
+        all_concept_names = [item for _list in \
+            [concept_data[c].concept_names for c in range(args.n_classes)] for item in _list]
+        # Clustering
         cluster_dict = cluter_assignment(args, dataset['train_data'], erm_model, logger)
         sens_csv_logger = CSVLogger(args, osp.join(args.log_dir, f'concept_sens.csv'), all_concept_names)
         
@@ -108,8 +95,8 @@ def train(
         elif args.disc:
             # Permute clusters and update dataloaders
             if epoch % 2 == 0:
-                stu_loaders = []
-                perm = [np.random.permutation(args.n_clusters) for _ in range(C)]
+                env_loaders = []
+                perm = [np.random.permutation(args.n_clusters) for _ in range(args.n_classes)]
                 perm = np.stack(perm, axis=0)
                 # Here each row of `perm` is a permutation
                 # E.g., when `n_classes` = 2 and `n_clusters` = 3
@@ -121,22 +108,22 @@ def train(
                     # 0-th cluster of class 0 and 2-nd cluster of class 1
                     subset_idx = [item \
                                 for _list in [
-                                    cluster_dict[c][l] for (c, l) in zip(range(C), perm[:, i])] \
+                                    cluster_dict[c][l] for (c, l) in zip(range(args.n_classes), perm[:, i])] \
                                 for item in _list]
                     # Construct subset loader based on clustering 
-                    stu_data = DRODataset(
+                    env_data = DRODataset(
                         Subset(dataset['train_data'], subset_idx), 
                         process_item_fn=None, n_groups=args.n_groups,
                         n_classes=dataset['train_data'].n_classes, 
                         group_str_fn=dataset['train_data'].group_str
                         )
-                    stu_loader = stu_data.get_loader(train=True, reweight_groups=False, **args.loader_kwargs)
-                    stu_loaders.append(stu_loader)
+                    env_loader = env_data.get_loader(train=True, reweight_groups=False, **args.loader_kwargs)
+                    env_loaders.append(env_loader)
 
             run_epoch_disc(
                 epoch, model, optimizer,
                 dataset['train_loader'],
-                stu_loaders,
+                env_loaders,
                 train_loss_computer,
                 logger, csv_loggers['train'], 
                 sens_csv_logger, args,

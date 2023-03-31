@@ -6,12 +6,20 @@ from tqdm import tqdm
 from PIL import Image
 
 """
-From https://github.com/mertyg/debug-mistakes-cce
+Modified from https://github.com/mertyg/debug-mistakes-cce
 """
+
 class ListDataset:
-    def __init__(self, images, preprocess=None):
-        self.images = images
+    def __init__(self, img_paths, preprocess=None):
+        self.images = []
         self.preprocess = preprocess
+        for img_path in img_paths:
+            try:
+                image = Image.open(img_path).convert('RGB')
+            except:
+                print(img_path)
+            if self.preprocess:
+                self.images.append(self.preprocess(image))
 
     def __len__(self):
         # Return the length of the dataset
@@ -20,39 +28,30 @@ class ListDataset:
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
             idx = idx.tolist()
-        img_path = self.images[idx]
-        try:
-            image = Image.open(img_path).convert('RGB')
-        except:
-            print(img_path)
-        if self.preprocess:
-            image = self.preprocess(image)
-        return image
+        return self.images[idx]
 
 
-def get_cavs(pos_loader, neg_loader, backbone, n_samples, C, device="cuda"):
+
+def get_cavs(pos_loader, neg_loader, backbone, n_samples, c, device="cuda"):
     """Learning CAVs and related margin stats.
     Args:
         pos_loader (torch.utils.data.DataLoader): A PyTorch DataLoader yielding positive samples for each concept
         neg_loader (torch.utils.data.DataLoader): A PyTorch DataLoader yielding negative samples for each concept
         model_bottom (nn.Module): Mode
         n_samples (int): Number of positive samples to use while learning the concept.
-        C (float): Regularization parameter for the SVM. Possibly multiple options.
+        c (float): Regularization parameter for the SVM. 
         device (str, optional): Device to use while extracting activations. Defaults to "cuda".
 
     Returns:
         dict: Concept information, including the CAV and margin stats.
     """
-    print("Extracting Embeddings: ")
     pos_act = get_embeddings(pos_loader, backbone, device=device)
     neg_act = get_embeddings(neg_loader, backbone, device=device)
     X_train = np.concatenate([pos_act[:n_samples], neg_act[:n_samples]], axis=0)
     X_val = np.concatenate([pos_act[n_samples:], neg_act[n_samples:]], axis=0)
     y_train = np.concatenate([np.ones(pos_act[:n_samples].shape[0]), np.zeros(neg_act[:n_samples].shape[0])], axis=0)
     y_val = np.concatenate([np.ones(pos_act[n_samples:].shape[0]), np.zeros(neg_act[n_samples:].shape[0])], axis=0)
-    concept_info = {}
-    for c in C:
-        concept_info[c] = get_concept_info(X_train, y_train, X_val, y_val, c)
+    concept_info = {c: get_concept_info(X_train, y_train, X_val, y_val, c)}
     return concept_info
 
 
@@ -97,14 +96,15 @@ def get_embeddings(loader, model, device="cuda"):
         np.array: Activations as a numpy array.
     """
     activations = None
-    for image in tqdm(loader):
-        image = image.to(device)
-        batch_act = model(image).squeeze().detach().cpu().numpy()
-        if activations is None:
-            activations = batch_act
-        else:
-            if len(batch_act.shape) == 1:
-                activations = np.concatenate([activations, batch_act.reshape(1,-1)], axis=0)
+    with torch.no_grad():
+        for image in loader:
+            image = image.to(device)
+            batch_act = model(image).squeeze().detach().cpu().numpy()
+            if activations is None:
+                activations = batch_act
             else:
-                activations = np.concatenate([activations, batch_act], axis=0)
+                if len(batch_act.shape) == 1:
+                    activations = np.concatenate([activations, batch_act.reshape(1,-1)], axis=0)
+                else:
+                    activations = np.concatenate([activations, batch_act], axis=0)
     return activations

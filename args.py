@@ -12,18 +12,16 @@ def parse_args():
     # Confounders
     parser.add_argument('-t', '--target_name', default='waterbird_complete95')
     parser.add_argument('-c', '--confounder_names', nargs='+', default=['forest2water2'])
-    # Resume?
+    # Resume
     parser.add_argument('--resume', default=False, action='store_true')
     # Label shifts
     parser.add_argument('--minority_fraction', type=float)
     parser.add_argument('--imbalance_ratio', type=float)
     # Data
+    parser.add_argument('--root_dir', default=None) 
     parser.add_argument('--fraction', type=float, default=1.0)
-    parser.add_argument('--root_dir', default=None)
-    parser.add_argument('--reweight_groups', action='store_true', default=False)
     parser.add_argument('--augment_data', action='store_true', default=False)
     parser.add_argument('--val_fraction', type=float, default=0.1)
-    parser.add_argument('--dog_group', type=int, default=4)
     # Objective
     parser.add_argument('--robust', default=False, action='store_true')
     parser.add_argument('--alpha', type=float, default=0.2)
@@ -53,6 +51,7 @@ def parse_args():
     parser.add_argument('--cut_mix', default=False, action='store_true')
     parser.add_argument('--num_warmup_steps', default=0, type=int)
     # baseline
+    parser.add_argument('--reweight_groups', action='store_true', default=False)
     parser.add_argument("--coral", action='store_true', default=False)
     parser.add_argument("--mix_up", action='store_true', default=False)
     parser.add_argument("--rex", action='store_true', default=False)
@@ -65,16 +64,19 @@ def parse_args():
     parser.add_argument("--rex_penalty", default=10, type=float)
     parser.add_argument("--ibirm_penalty", default=10, type=float)
     parser.add_argument("--meta_lr", default=1e-4, type=float)
-    # disc
+    # DISC: required
     parser.add_argument('--disc', action='store_true', default=False)
     parser.add_argument('--erm_path', type=str, help="Model path of ERM")
-    parser.add_argument('--concept_bank_path', type=str)
-    parser.add_argument('--n_clusters', type=int, default=5)
-    parser.add_argument('--topk', type=int, default=5)
+    parser.add_argument('--concept_img_folder', type=str, default=f'synthetic_concepts')
+    parser.add_argument("--concept_categories", type=str, help="Specify concept categories. Use '-' as delimiter "
+                        "or use 'everything' to include all. Example: color-texture-nature / everything")
+    # DISC: optional
+    parser.add_argument('--n_clusters', type=int, default=3, 
+                        help="Number of clusters for constructing environments")
+    parser.add_argument('--n_concept_imgs', default=200, type=int)
+    parser.add_argument('--topk', type=int, default=10)
     parser.add_argument('--cluster', choices=['kmeans', 'gmm'], default='gmm')
     parser.add_argument("--c_svm", default=0.1, type=float, help="Regularization for SVMs")
-    parser.add_argument('--concept_img_folder', type=str, default=f'synthetic_concepts')
-    parser.add_argument('--n_concept_imgs', default=500, type=int)
     # Misc
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--show_progress', default=False, action='store_true')

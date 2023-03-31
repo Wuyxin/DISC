@@ -55,28 +55,6 @@ class Subset(torch.utils.data.Dataset):
             return self.label_array
 
 
-class ConcatDataset(torch.utils.data.ConcatDataset):
-    """
-    Concate datasets
-    Extends the default torch class to support group and label arrays.
-
-    """
-    def __init__(self, datasets):
-        super(ConcatDataset, self).__init__(datasets)
-
-    def get_group_array(self):
-        group_array = []
-        for dataset in self.datasets:
-            group_array += list(np.squeeze(dataset.get_group_array()))
-        return np.array(group_array)
-
-    def get_label_array(self):
-        label_array = []
-        for dataset in self.datasets:
-            label_array += list(np.squeeze(dataset.get_label_array()))
-        return np.array(label_array)
-
-
 def get_fold(
         dataset,
         fold=None,

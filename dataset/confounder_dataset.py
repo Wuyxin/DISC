@@ -43,7 +43,6 @@ class ConfounderDataset(Dataset):
                     x = self.train_transform(x)
                 else:
                     x = self.eval_transform(x)
-
             assert not isinstance(x, list)
         else:
             if not self.mix_array[idx]:
@@ -51,7 +50,6 @@ class ConfounderDataset(Dataset):
             else:
                 idx_1, idx_2 = self.mix_idx_array[idx]
                 x1, x2 = self.get_image(idx_1), self.get_image(idx_2)
-
                 l = self.mix_weight_array[idx]
                 x = l * x1 + (1-l) * x2
 
@@ -61,12 +59,10 @@ class ConfounderDataset(Dataset):
                 true_g = self.domains[idx]
             except:
                 true_g = None
-
             if true_g is None:
                 return x, y, g, y_onehot, idx
             else:
                 return x, y, true_g, y_onehot, idx
-
         else:
             return x, y, g, idx
 
@@ -83,7 +79,6 @@ class ConfounderDataset(Dataset):
         img = Image.open(img_filename)
         if self.RGB:
             img = img.convert("RGB")
-
         # Figure out split and transform accordingly
         if self.split_array[idx] == self.split_dict['train'] and self.train_transform:
             img = self.train_transform(img)
@@ -112,7 +107,6 @@ class ConfounderDataset(Dataset):
     def group_str(self, group_idx):
         y = group_idx // (self.n_groups/self.n_classes)
         c = group_idx % (self.n_groups//self.n_classes)
-
         group_name = f'{self.target_name} = {int(y)}'
         bin_str = format(int(c), f'0{self.n_confounders}b')[::-1]
         for attr_idx, attr_name in enumerate(self.confounder_names):
