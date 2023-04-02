@@ -13,7 +13,7 @@ def run_one_step_and_get_cts(
     ):
     
     model = model.to('cuda')
-    backbone, model_top = NetBottom(model), NetTop(model)
+    backbone, model_top = NetBottom(args.model, model), NetTop(model)
     set_required_grad(backbone, False)
     set_required_grad(model_top, True)
     concept_names = concept_bank.concept_info.concept_names

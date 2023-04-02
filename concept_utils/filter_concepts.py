@@ -52,7 +52,7 @@ def filter_relevant_concepts(
     for p in model.parameters():
         p.requires_grad = False
     concepts = np.array(concept_bank.concept_info.concept_names)
-    backbone, model_top = NetBottom(model), NetTop(model)
+    backbone, model_top = NetBottom(args.model, model), NetTop(model)
 
     cnt = 0
     t1 = datetime.now()

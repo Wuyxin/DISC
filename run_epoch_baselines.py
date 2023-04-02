@@ -49,7 +49,7 @@ def run_epoch(
 
             if args.ibirm or args.coral:
                 from models import NetBottom, NetTop
-                features = NetBottom(model)(x)
+                features = NetBottom(args.model, model)(x)
                 outputs = NetTop(model)(features)
             elif args.fish and is_training:
                 model = model.cpu()

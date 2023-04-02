@@ -33,7 +33,7 @@ def cluter_assignment(args, train_data, model, logger):
     os.makedirs(save_dir, exist_ok=True)
     assignments_path = osp.join(save_dir, 'assignments.pt')
     
-    backbone = NetBottom(model).cuda()
+    backbone = NetBottom(args.model, model).cuda()
     model_top = NetTop(model).cuda()
     cluster_dict = {l : {} for l in range(args.n_classes)}
     loader = train_data.get_loader(train=False, batch_size=args.batch_size)

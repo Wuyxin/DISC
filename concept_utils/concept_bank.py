@@ -92,7 +92,7 @@ def learn_concept_bank(
     assert concept_names is not None or concept_categories is not None
     model.eval()
     model = model.to('cuda')
-    backbone, top = NetBottom(model), NetTop(model)
+    backbone, top = NetBottom(args.model, model), NetTop(model)
 
     # Map concept categories to concept names
     if concept_categories is not None:

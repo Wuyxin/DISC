@@ -60,13 +60,13 @@ def prepare_fmow_data(args):
     # train_data
     train_data.input_size = lambda *args: (224, 224)
     train_data.get_loader = lambda train, batch_size, **kwargs: DataLoader(train_data, 
-                                                                           batch_size=args.batch_size, 
+                                                                           batch_size=batch_size, 
                                                                            shuffle=train, num_workers=0)
     val_data.get_loader = lambda train, batch_size, **kwargs: DataLoader(val_data, 
-                                                                         batch_size=args.batch_size, 
+                                                                         batch_size=batch_size, 
                                                                          shuffle=False, num_workers=0)
     test_data.get_loader = lambda train, batch_size, **kwargs: DataLoader(test_data, 
-                                                                          batch_size=args.batch_size, 
+                                                                          batch_size=batch_size, 
                                                                           shuffle=False, num_workers=0)
     train_data.get_group_array = lambda *args, **kwargs: metadata_array[split_array == split_dict['train']]
     train_data.get_label_array = lambda *args, **kwargs: y_array[split_array == split_dict['train']]

@@ -103,13 +103,9 @@ def get_fold(
         else:
             print("\n" * 10, "WARNING, NOT SHUFFLING", "\n" * 10)
         for i in range(num_valid_sets):
-            train_indices = indices[:i * valid_size] + indices[(i + 1) *
-                                                               valid_size:]
-            print("len(train_indices)", len(train_indices))
+            train_indices = indices[:i * valid_size] + indices[(i + 1) * valid_size:]
             train_split = Subset(dataset, train_indices)
-
             valid_indices = indices[i * valid_size:(i + 1) * valid_size]
-            print("len(valid_indices)", len(valid_indices))
             valid_split = Subset(dataset, valid_indices)
             if sweep_counter == 0 and i == 0:
                 print("train_split", train_split, "valid_split", valid_split)

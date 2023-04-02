@@ -4,12 +4,6 @@ from torchvision import transforms
 import numpy as np
 
 model_attributes = {
-    'bert': {
-        'feature_type': 'text'
-    },
-    "distilbert": {
-        'feature_type': 'text'
-    },
     'inception_v3': {
         'feature_type': 'image',
         'target_resolution': (299, 299),
@@ -44,13 +38,17 @@ model_attributes = {
 
 
 class NetBottom(nn.Module):
-    def __init__(self, original_model):
+    def __init__(self, model_type, original_model):
         super(NetBottom, self).__init__()
+        self.model_type = model_type
         self.features = nn.Sequential(*list(original_model.children())[:-1])
 
     def forward(self, x):
         x = self.features(x)
-        x = x.view(x.size(0), -1)
+        if 'dense' in self.model_type:
+            x = F.relu(x, inplace=True)
+            x = F.adaptive_avg_pool2d(x, (1, 1))
+        x = torch.flatten(x, 1)
         return x
 
 
@@ -62,6 +60,7 @@ class NetTop(nn.Module):
     def forward(self, x):
         x = self.features(x)
         return x
+
 
 
 '''ResNet in PyTorch.

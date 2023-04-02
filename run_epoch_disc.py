@@ -74,7 +74,7 @@ def run_epoch_disc(
         ##               Cure             ##
         ####################################
         model = model.to('cuda')
-        backbone, model_top = NetBottom(model), NetTop(model)
+        backbone, model_top = NetBottom(args.model, model), NetTop(model)
         set_required_grad(model, True)
         model.train()
         concept_data_iter = {}

@@ -53,8 +53,9 @@ def prepare_cifar10_data(args):
     ood_data_targets = ood_data_targets.repeat(idx + 1)
     tensor_train_data = torch.stack([train_data[idx][0] for idx in range(len(train_data))])
     tensor_val_data = torch.stack([val_data[idx][0] for idx in range(len(val_data))])
-    train_targets = torch.Tensor(train_data.targets).long()
-    train_data = torch.utils.data.TensorDataset(tensor_train_data, train_targets, 
+    train_targets = train_data.targets
+    train_data = torch.utils.data.TensorDataset(tensor_train_data, 
+                                                torch.Tensor(train_targets).long(), 
                                                 torch.zeros(len(train_data)).long()
                                                 )
     val_data = torch.utils.data.TensorDataset(tensor_val_data, 
@@ -91,7 +92,7 @@ def prepare_cifar10_data(args):
                                                                               batch_size=batch_size, 
                                                                               shuffle=False, num_workers=0)
     train_data.get_group_array = lambda *args, **kwargs: torch.zeros(len(train_data)).long()
-    train_data.get_label_array = lambda *args, **kwargs: train_targets
+    train_data.get_label_array = lambda *args, **kwargs: np.array(train_targets)
 
     return train_data, val_data, ood_test_data
     
