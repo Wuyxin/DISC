@@ -68,6 +68,6 @@ def prepare_fmow_data(args):
     test_data.get_loader = lambda train, batch_size, **kwargs: DataLoader(test_data, 
                                                                           batch_size=batch_size, 
                                                                           shuffle=False, num_workers=0)
-    train_data.get_group_array = lambda *args, **kwargs: metadata_array[split_array == split_dict['train']]
-    train_data.get_label_array = lambda *args, **kwargs: y_array[split_array == split_dict['train']]
+    train_data.get_group_array = lambda *args, **kwargs: metadata[split_array == split_dict['train']]
+    train_data.get_label_array = lambda *args, **kwargs: y_array[split_array == split_dict['train']].astype(float)
     return train_data, val_data, test_data
