@@ -31,7 +31,8 @@ def train(
         relevant_concepts = filter_relevant_concepts(args, erm_model, dataset['train_data'])
         # Construct datasets of concept images
         concept_data = {}
-        for c in range(args.n_classes):
+        print('Processing concept images in each class..')
+        for c in tqdm(range(args.n_classes)):
             concept_names, concept_probs = relevant_concepts[c]
             concept_data[c] = ConceptDataset(
                 args, root_dir=args.concept_img_folder,
@@ -40,6 +41,7 @@ def train(
                 model_type=args.model,
                 augment_data=args.augment_data
                 )
+        print('Done!')
         all_concept_names = [item for _list in \
             [concept_data[c].concept_names for c in range(args.n_classes)] for item in _list]
         # Clustering

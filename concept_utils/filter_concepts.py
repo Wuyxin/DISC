@@ -8,7 +8,6 @@ from models import NetBottom, NetTop
 from concept_utils.concept_bank import learn_concept_bank, ConceptBank
 from concept_utils.cce_utils import conceptual_counterfactual
 
-
 def filter_relevant_concepts(
     args, model, dataset, temperature=1.0
     ):
@@ -29,7 +28,6 @@ def filter_relevant_concepts(
         See the discussion section in the paper.
 
     '''
-    print('Filtering relevant concepts:')
     # Save the filtered results to avoid recomputation on the dataset
     prefix = f'{args.concept_categories}-n_concept_imgs={args.n_concept_imgs}'
     if args.dataset == 'ISIC':
@@ -70,8 +68,9 @@ def filter_relevant_concepts(
     # and a^T will be a positive concept score array on class y_i
     # --------------------------------------------------------------------
     if not osp.exists(relevance_path):
+        print('Filtering relevant concepts:')
         cf_tensors = {label: {'pos': [], 'neg': []} for label in range(args.n_classes)}
-        loader = dataset.get_loader(train=False, batch_size=1, reweight_groups=None)
+        loader = dataset.get_loader(train=True, batch_size=1, reweight_groups=None)
         for batch in tqdm(loader):
             x, y = batch[0].cuda(), batch[1].cuda().item()
             embedding = backbone(x)
@@ -126,7 +125,9 @@ def filter_relevant_concepts(
     concept_relevance = torch.load(relevance_path)
     for y in range(args.n_classes):
         names, prob = concept_relevance[y]
-        # Take the concepts that contribute 50% in total
-        topk = min(20, torch.arange(len(prob))[torch.cumsum(prob, dim=0) > 0.5][0])
+        # We use smaller ratio on FMoW to avoid CPU momory exceed
+        ratio = 0.2 if args.dataset == 'FMoW' else 0.5
+        # Take the concepts that contribute {ratio}% in total
+        topk = min(torch.arange(len(prob))[torch.cumsum(prob, dim=0) > ratio][0], 20)
         concept_relevance[y] = (names[:topk], prob[:topk])
     return concept_relevance

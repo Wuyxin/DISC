@@ -10,7 +10,6 @@ SEED=0
 ROOT=/oak/stanford/groups/jamesz/shirwu/DISC
 srun -p jamesz -G 1 --cpus-per-gpu=2 --time=1-00:00:00 python run_expt.py -s confounder -d MetaDatasetCatDog -t cat -c background --lr 0.001 --batch_size 16 --weight_decay 0.0001 --model resnet50 --n_epochs 100 --save_last  --save_best --log_dir $ROOT/output/ --root_dir $ROOT/data/metashifts/MetaDatasetCatDog --seed $SEED --save_best --save_last
 
-
 # ERM + aug
 SEED=0
 ROOT=/oak/stanford/groups/jamesz/shirwu/DISC

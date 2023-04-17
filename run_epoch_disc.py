@@ -23,7 +23,10 @@ def run_epoch_disc(
         prog_bar_loader = tqdm(loader)
     else:
         prog_bar_loader = loader
-        
+    if args.dataset == 'FMoW':
+        class_enum = np.random.permutation(args.n_classes)[:3]
+    else:
+        class_enum = range(args.n_classes)
     with torch.set_grad_enabled(is_training):
         ####################################
         ##             Discover           ##
@@ -46,7 +49,7 @@ def run_epoch_disc(
             
         concept_dataloader, stats_dict = {}, {}
         logger.write('>' * 100 + '\n')
-        for c in range(args.n_classes):
+        for c in class_enum:
             concept_names = concept_data[c].concept_names
             sensitivity = {name: [] for name in concept_names}
             for top_concepts in top_concepts_res:
@@ -79,7 +82,7 @@ def run_epoch_disc(
         model.train()
         concept_data_iter = {}
         for batch_idx, batch in enumerate(prog_bar_loader):    
-            for c in range(args.n_classes):
+            for c in class_enum:
                 concept_data_iter[c] = iter(concept_dataloader[c])
             batch = tuple(t.cuda() for t in batch)
             x, y, g = batch[0], batch[1], batch[2]
@@ -87,7 +90,7 @@ def run_epoch_disc(
             x_emb = backbone(x)
             outputs = model_top(x_emb)
             loss_main = loss_computer.loss(outputs, y, g, is_training, mix_up=False, y_onehot=y_onehot)
-            for c in range(args.n_classes):
+            for c in class_enum:
                 bool_c = ~(y == c)
                 tmp_x = concept_data_iter[c].next()
                 tmp_x = tmp_x.cuda()

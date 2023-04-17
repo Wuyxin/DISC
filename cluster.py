@@ -40,8 +40,9 @@ def cluter_assignment(args, train_data, model, logger):
 
     # If clustering results already exist, then use the saved one
     if not osp.exists(assignments_path):
-        # get instance embeddings and accuracies
+        # Get instance embeddings and accuracies
         embeddings, labels, ids, acc, gs = [], [], [], [], []
+        print('Conduct class-wise clustering...')
         for batch in tqdm(loader):
             x, y = batch[0].cuda(), batch[1].cuda()
             g = batch[2].detach().cpu().numpy()
@@ -58,7 +59,7 @@ def cluter_assignment(args, train_data, model, logger):
         acc = np.concatenate(acc).reshape(-1, 1)
         ids = np.arange(len(labels))
         
-        # conduct clustering using kmeans/gmm
+        # Conduct clustering using kmeans/gmm
         silhouette_score = []
         reducer = UMAPReducer()
         for l in np.unique(labels):
@@ -76,11 +77,13 @@ def cluter_assignment(args, train_data, model, logger):
             for c in range(len(unique_clusters)):
                 cluster_dict[l][c] = ids[labels==l][cluters_==c]
             logger.write(f'\nClass {l}: cluster size {counts}\n')
+            print('Done!')
 
             # Save for visualization
-            torch.save(reps, osp.join(save_dir, f'cluster_rep_class={l}.pt'))
-            torch.save(cluters_, osp.join(save_dir, f'cluster_idx_class={l}.pt'))
-            torch.save(gs[labels==l], osp.join(save_dir, f'group_idx_class={l}.pt'))
+            # torch.save(reps, osp.join(save_dir, f'cluster_rep_class={l}.pt'))
+            # torch.save(cluters_, osp.join(save_dir, f'cluster_idx_class={l}.pt'))
+            # torch.save(gs[labels==l], osp.join(save_dir, f'group_idx_class={l}.pt'))
+            
         logger.write(f'Silhouette Scores: {silhouette_score}\n  Mean: {np.mean(silhouette_score)}\n')
         torch.save(cluster_dict, assignments_path)
     logger.flush()
