@@ -4,9 +4,9 @@ import numpy as np
 
 import torch
 import torch.nn.functional as F
-from utils import set_required_grad, ParamDict
-from loss import LossComputer
-from mixup import mix_forward
+from utils.loss import LossComputer
+from utils.mixup import mix_forward
+from utils.tools import set_required_grad, ParamDict
 
 
 # For other baselines except for LISA

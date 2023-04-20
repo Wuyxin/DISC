@@ -1,5 +1,5 @@
 # DISC
-SEED=0
+SEED=4
 N_CLUSTERS=2
 NUM=200
 ROOT=/oak/stanford/groups/jamesz/shirwu/

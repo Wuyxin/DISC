@@ -9,6 +9,7 @@ import torch
 import torch.nn as nn
 import torchvision
 
+from args import parse_args
 from train import train
 from models import model_attributes
 from dataset.cifar10_dataset import prepare_cifar10_data
@@ -16,8 +17,7 @@ from dataset.fmow_dataset import prepare_fmow_data
 from dataset.dro_dataset import DRODataset
 from dataset.folds import Subset, get_fold
 from dataset.load_data import dataset_attributes, shift_types, prepare_data, log_data, log_meta_data
-from utils import set_seed, Logger, CSVBatchLogger, log_args, get_model, check_args, set_log_dir
-from args import parse_args
+from utils.tools import set_seed, Logger, CSVBatchLogger, log_args, get_model, check_args, set_log_dir
 
 
 if __name__=='__main__':

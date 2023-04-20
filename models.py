@@ -1,7 +1,10 @@
+import torch
 import torch.nn as nn
-from torchvision import transforms
+import torch.nn.functional as F
 
 import numpy as np
+from torchvision import transforms
+
 
 model_attributes = {
     'inception_v3': {
@@ -62,21 +65,17 @@ class NetTop(nn.Module):
         return x
 
 
+'''
+This model implementation is only used in CIFAR10
 
-'''ResNet in PyTorch.
+ResNet in PyTorch.
 # https://github.com/kuangliu/pytorch-cifar/tree/master/models
 For Pre-activation ResNet, see 'preact_resnet.py'.
 Reference:
 [1] Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun
     Deep Residual Learning for Image Recognition. arXiv:1512.03385
 
-Note: this implementation works better on CIFAR10
 '''
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-
-
 class BasicBlock(nn.Module):
     expansion = 1
     def __init__(self, in_planes, planes, stride=1):

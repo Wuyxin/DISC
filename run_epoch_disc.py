@@ -2,11 +2,11 @@ import numpy as np
 from tqdm import tqdm
 import torch
 
-from utils import set_required_grad
-from models import NetBottom, NetTop
 from concept_utils.concept_bank import learn_concept_bank
 from concept_utils.get_cts import run_one_step_and_get_cts
-from mixup import mix_up
+from utils.mixup import mix_up
+from utils.tools import set_required_grad
+from models import NetBottom, NetTop
 
 
 # DISC training

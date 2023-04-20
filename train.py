@@ -7,16 +7,16 @@ from tqdm import tqdm
 import torch
 import torch.nn.functional as F
 
-from loss import LossComputer
-from utils import CSVLogger, set_required_grad, get_optimizer, get_scheduler
+from utils.loss import LossComputer
+from utils.cluster import cluter_assignment
+from utils.tools import CSVLogger, set_required_grad, get_optimizer, get_scheduler
 
+from models import NetBottom, NetTop
 from run_epoch_disc import run_epoch_disc
 from run_epoch_baselines import run_epoch, run_epoch_mix_every_batch
 
-from cluster import cluter_assignment
 from dataset.folds import Subset
 from dataset.dro_dataset import DRODataset
-from models import NetBottom, NetTop
 from concept_utils.concept_dataset import ConceptDataset
 from concept_utils.filter_concepts import filter_relevant_concepts
 
