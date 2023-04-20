@@ -20,7 +20,6 @@ from utils import set_seed, Logger, CSVBatchLogger, log_args, get_model, check_a
 from args import parse_args
 
 
-
 if __name__=='__main__':
     # Load args
     args = parse_args()

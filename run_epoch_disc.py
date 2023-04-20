@@ -16,17 +16,22 @@ def run_epoch_disc(
     args, is_training, concept_data, 
     show_progress=False, log_every=50, scheduler=None
     ):
+    
     assert is_training
-    model.train()
-    all_concept_names = [item for _list in [concept_data[c].concept_names for c in range(args.n_classes)] for item in _list]
+    all_concept_names = [item for _list in \
+        [concept_data[c].concept_names for c in range(args.n_classes)] for item in _list]
+    
     if show_progress:
         prog_bar_loader = tqdm(loader)
     else:
         prog_bar_loader = loader
+
     if args.dataset == 'FMoW':
-        class_enum = np.random.permutation(args.n_classes)[:3]
+        class_enum = np.random.choice(args.n_classes, 3)
     else:
         class_enum = range(args.n_classes)
+
+    model.train()
     with torch.set_grad_enabled(is_training):
         ####################################
         ##             Discover           ##
@@ -49,6 +54,7 @@ def run_epoch_disc(
             
         concept_dataloader, stats_dict = {}, {}
         logger.write('>' * 100 + '\n')
+
         for c in class_enum:
             concept_names = concept_data[c].concept_names
             sensitivity = {name: [] for name in concept_names}
@@ -64,10 +70,12 @@ def run_epoch_disc(
             concept_probs = concept_probs / concept_probs.sum()
             for idx, name in enumerate(concept_names):
                 stats_dict[name] = concept_probs[idx].item()
+                
             concept_dataloader[c] = concept_data[c].get_loader(concept_probs=concept_probs, **args.loader_kwargs)
             seq = concept_probs.argsort(descending=True)
             sorted_names = concept_names[seq]
             logger.write(f'Epoch={epoch} Class={c}: \n  concepts={sorted_names}\n  prob={concept_probs[seq]}\n')
+        
         logger.write('<' * 100 + '\n')
         stats_dict['average'] = np.array(list(stats_dict.values())).mean()
         sens_csv_logger.log(epoch, stats_dict)
@@ -79,7 +87,7 @@ def run_epoch_disc(
         model = model.to('cuda')
         backbone, model_top = NetBottom(args.model, model), NetTop(model)
         set_required_grad(model, True)
-        model.train()
+
         concept_data_iter = {}
         for batch_idx, batch in enumerate(prog_bar_loader):    
             for c in class_enum:
@@ -87,14 +95,17 @@ def run_epoch_disc(
             batch = tuple(t.cuda() for t in batch)
             x, y, g = batch[0], batch[1], batch[2]
             y_onehot = None
+
             x_emb = backbone(x)
             outputs = model_top(x_emb)
             loss_main = loss_computer.loss(outputs, y, g, is_training, mix_up=False, y_onehot=y_onehot)
+            
             for c in class_enum:
                 bool_c = ~(y == c)
                 tmp_x = concept_data_iter[c].next()
                 tmp_x = tmp_x.cuda()
-                if bool_c.float().sum() < 2: continue # avoid shape error
+                if bool_c.float().sum() < 2: 
+                    continue # avoid shape error
                 mixed_x, mixed_y = mix_up(
                     args, x1=x[bool_c], x2=tmp_x, 
                     y1=y[bool_c], y2=y[bool_c], n_classes=1

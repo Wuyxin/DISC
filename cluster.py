@@ -78,11 +78,6 @@ def cluter_assignment(args, train_data, model, logger):
                 cluster_dict[l][c] = ids[labels==l][cluters_==c]
             logger.write(f'\nClass {l}: cluster size {counts}\n')
             print('Done!')
-
-            # Save for visualization
-            # torch.save(reps, osp.join(save_dir, f'cluster_rep_class={l}.pt'))
-            # torch.save(cluters_, osp.join(save_dir, f'cluster_idx_class={l}.pt'))
-            # torch.save(gs[labels==l], osp.join(save_dir, f'group_idx_class={l}.pt'))
             
         logger.write(f'Silhouette Scores: {silhouette_score}\n  Mean: {np.mean(silhouette_score)}\n')
         torch.save(cluster_dict, assignments_path)
