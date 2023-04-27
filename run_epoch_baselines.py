@@ -145,7 +145,6 @@ def run_epoch(
                 optimizer.step()
 
             if is_training and (batch_idx+1) % log_every==0:
-                # pdb.set_trace()
                 csv_logger.log(epoch, batch_idx, loss_computer.get_stats(model, args))
                 csv_logger.flush()
                 loss_computer.log_stats(logger, is_training)

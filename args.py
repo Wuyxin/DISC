@@ -1,7 +1,7 @@
 import argparse
 from dataset.load_data import dataset_attributes, shift_types
 from models import model_attributes
-from utils import ParseKwargs
+from utils.tools import ParseKwargs
 
 
 def parse_args():

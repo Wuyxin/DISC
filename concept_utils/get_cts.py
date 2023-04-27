@@ -2,7 +2,7 @@ import torch
 from tqdm import tqdm
 from collections import OrderedDict
 from models import NetBottom, NetTop
-from utils import set_required_grad
+from utils.tools import set_required_grad
 
 '''
 Use gradient information to obtain concept score

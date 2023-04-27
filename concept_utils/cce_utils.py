@@ -1,7 +1,6 @@
 from collections import defaultdict
 import numpy as np
 import torch
-from torch._C import Value
 import torch.nn as nn
 import torch.optim as optim
 
