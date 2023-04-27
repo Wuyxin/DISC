@@ -1,6 +1,6 @@
 <p align="center">
     <br>
-    <img src="scripts/disc.png" width="400"/>
+    <img src="scripts/disc.png" width="450"/>
     <br>    
 
 # Discover and Cure: Concept-aware Mitigation of Spurious Correlation 
