@@ -1,3 +1,6 @@
+"""
+Modified based on https://github.com/mertyg/debug-mistakes-cce
+"""
 import torch
 from collections import defaultdict
 import numpy as np
@@ -5,9 +8,6 @@ from sklearn.svm import SVC
 from tqdm import tqdm
 from PIL import Image
 
-"""
-Modified from https://github.com/mertyg/debug-mistakes-cce
-"""
 
 class ListDataset:
     def __init__(self, img_paths, preprocess=None):

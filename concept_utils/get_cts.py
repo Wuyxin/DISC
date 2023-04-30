@@ -4,14 +4,22 @@ from collections import OrderedDict
 from models import NetBottom, NetTop
 from utils.tools import set_required_grad
 
-'''
-Use gradient information to obtain concept score
-'''
+
 def run_one_step_and_get_cts(
     args, model, loader, loss_computer, 
     concept_bank, is_training=True
     ):
-    
+    '''
+    Use gradient information to obtain concept score
+    Args: 
+        args : Arguments, see args.py
+        model (nn.Module): The model in the current training epoch. 
+        loader (Dataloader): The training dataloader
+        loss_computer (LossComputer): Loss computer defined in utils/loss.py
+        concept_bank (ConceptBank): Concept bank defined in concept_utils/concept_bank.py
+    Return:
+        score (list, list), each concept and the corresponding concept scores
+    '''
     model = model.to('cuda')
     backbone, model_top = NetBottom(args.model, model), NetTop(model)
     set_required_grad(backbone, False)

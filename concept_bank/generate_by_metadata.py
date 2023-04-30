@@ -13,7 +13,7 @@ from tqdm import tqdm
 
 def config():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--n_samples", default=1, type=int)
+    parser.add_argument("--n_samples", default=200, type=int)
     parser.add_argument("--root", default='../', type=str) # root to store the generated concept bank
     return parser.parse_args()
 
