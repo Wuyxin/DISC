@@ -6,11 +6,9 @@
 
 # **Discover and Cure: Concept-aware Mitigation of Spurious Correlation** (ICML 2023)
 
-Paper is in its way to arxiv! 
+Access our paper [here](https://drive.google.com/drive/folders/1Ll3-4TNU_ZRKR2VoptUTnOGTDnGDixNt?usp=sharing). 
 
---------------
 # **Overview**
-
 
 ### **What is DISC?**
 
@@ -84,13 +82,18 @@ pip install tarfile zipfile gdown # Used for data download
 cd dataset
 python download_all.py
 ```
+<details>
+  <summary>Manual download (If auto download fails)</summary>
+  <p>
 
-Manual download (If auto download fails) :
+  - **MetaShift**: Download the dataset from [here](https://drive.google.com/drive/folders/1Ll3-4TNU_ZRKR2VoptUTnOGTDnGDixNt?usp=sharing). Unzipping this should result in a folder `metashifts`, which should be moved as `$ROOT/data/metashifts` depending on your root directory.
 
-- **MetaShift**: Download the dataset from [here](https://drive.google.com/drive/folders/1Ll3-4TNU_ZRKR2VoptUTnOGTDnGDixNt?usp=sharing). Unzipping this should result in a folder `metashifts`, which should be moved as `$ROOT/data/metashifts` depending on your root directory.
-- **Waterbirds**: Download the dataset from [here](https://nlp.stanford.edu/data/dro/waterbird_complete95_forest2water2.tar.gz). Unzipping this should result in a folder `waterbird_complete95_forest2water2`. Place this folder under `$ROOT/data/cub/`.
--  **FMoW**: Dataset download is automatic and can be found in `$ROOT/data/fmow/fmow_v1.1`. We recommend following the setup instructions provided by the official WILDS [website](https://wilds.stanford.edu/get_started/).
--  **ISIC**: Download the dataset from [here](https://drive.google.com/drive/folders/1Ll3-4TNU_ZRKR2VoptUTnOGTDnGDixNt?usp=sharing). Unzipping this should result in a folder `isic`, which should be moved as `$ROOT/data/isic` depending on your root directory.
+  - **Waterbirds**: Download the dataset from [here](https://nlp.stanford.edu/data/dro/waterbird_complete95_forest2water2.tar.gz). Unzipping this should result in a folder `waterbird_complete95_forest2water2`. Place this folder under `$ROOT/data/cub/`.
+  -  **FMoW**: Dataset download is automatic and can be found in `$ROOT/data/fmow/fmow_v1.1`. We recommend following the setup instructions provided by the official WILDS [website](https://wilds.stanford.edu/get_started/).
+
+  -  **ISIC**: Download the dataset from [here](https://drive.google.com/drive/folders/1Ll3-4TNU_ZRKR2VoptUTnOGTDnGDixNt?usp=sharing). Unzipping this should result in a folder `isic`, which should be moved as `$ROOT/data/isic` depending on your root directory.
+  </p>
+</details>
 
 ## **Prepare Concept Bank**
 
@@ -101,14 +104,19 @@ cd concept_bank
 python download.py
 ```
 
-Manual generation (Can be used for customizing your own concept bank!):
 
-- Define the concept bank in `concept_bank/metadata.json`
-- Run the generation using Stable Diffusion v1-4:
-```
-cd concept_bank
-python generate_concept_bank.py --n_samples 200 
-```
+<details>
+  <summary>Manual generation. Can be used for customizing your own concept bank!</summary>
+  <p>
+
+  - Define the concept bank in `synthetic_concepts/metadata.json`
+  - Run the generation using Stable Diffusion v1-4:
+    ```
+    cd concept_bank
+    python generate_concept_bank.py --n_samples 200 
+    ```
+  </p>
+</details>
 
 ## Train ERM
 We provide commands under `scripts` folder. For example, train an ERM model on MetaShift:

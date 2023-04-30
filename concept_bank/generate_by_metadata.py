@@ -27,7 +27,7 @@ pipe = StableDiffusionPipeline.from_pretrained(
 ).to("cuda")
 pipe.safety_checker = lambda images, clip_input: (images, False)
 
-metadata = json.load(open(f'metadata.json'))
+metadata = json.load(open('../synthetic_concepts/metadata.json'))
 
 concepts = [item for lst in list(metadata.values()) for item in lst]
 random.shuffle(concepts)
@@ -55,6 +55,3 @@ for concept in tqdm(concepts):
         with autocast("cuda"):
             image = pipe(prompt=input_prompt, strength=strength).images[0]
         image.save(f"{pos_root}/{i}.png")
-
-with open(osp.join(args.root, "synthetic_concepts/metadata.json"), "w") as outfile:
-    outfile.write(json.dumps(metadata, indent=4))
