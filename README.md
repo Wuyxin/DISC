@@ -45,7 +45,6 @@ DISC adaptively discovers and removes spurious correlations during model trainin
 - Monitor how models learn spurious correlations!
 
 
---------------
 ### **How does DISC do it?**
 
 
@@ -63,7 +62,7 @@ DISC adaptively discovers and removes spurious correlations during model trainin
 
  <p align="center">
     <br>
-    <img src="docs/framework.png" width="400"/>
+    <img src="docs/framework.png" width="800"/>
     <br>    
 <p>
 
