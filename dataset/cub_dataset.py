@@ -44,7 +44,6 @@ class CUBDataset(ConfounderDataset):
 
         self.data_dir = os.path.join(
             self.root_dir,
-            'data',
             '_'.join([self.target_name] + self.confounder_names))
 
         if not os.path.exists(self.data_dir) and not os.path.exists(os.path.join(root_dir, 'features', "cub.npy")):

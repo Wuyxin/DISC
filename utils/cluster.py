@@ -4,7 +4,6 @@ from sklearn.cluster import KMeans
 from sklearn.mixture import GaussianMixture
 
 import warnings
-from numba.core.errors import NumbaWarning
 from umap import UMAP
 
 import torch
@@ -77,7 +76,7 @@ def cluter_assignment(args, train_data, model, logger):
             for c in range(len(unique_clusters)):
                 cluster_dict[l][c] = ids[labels==l][cluters_==c]
             logger.write(f'\nClass {l}: cluster size {counts}\n')
-            print('Done!')
+        print('Done!')
             
         logger.write(f'Silhouette Scores: {silhouette_score}\n  Mean: {np.mean(silhouette_score)}\n')
         torch.save(cluster_dict, assignments_path)

@@ -194,6 +194,11 @@ class LossComputer:
             stats_dict['roc_auc'] = self.roc_auc
             
         for idx in range(self.n_groups):
+            group_str = self.group_str(idx, is_training) if 'Meta' in self.args.dataset else self.group_str(idx)
+            n = int(self.processed_data_counts[idx])
+            if n == 0 or (self.args.dataset == 'FMoW' and "Other" in group_str):
+                continue
+
             stats_dict[f'avg_loss_group:{idx}'] = self.avg_group_loss[idx].item()
             stats_dict[f'exp_avg_loss_group:{idx}'] = self.exp_avg_loss[idx].item()
             stats_dict[f'avg_acc_group:{idx}'] = self.avg_group_acc[idx].item()
@@ -215,7 +220,6 @@ class LossComputer:
         if args is not None and args.dataset == 'MetaDataset':
             stats_dict['F1-score'] = 1 / (1 / (stats_dict['avg_acc_group:0'] + 1e-5) + 1 / (stats_dict['avg_acc_group:1'] + 1e-5))
 
-
         # Model stats
         if model is not None:
             assert args is not None
@@ -230,17 +234,24 @@ class LossComputer:
         logger.write(f'Average sample loss: {self.avg_actual_loss.item():.4f}  \n')
         if is_training and self.args.lisa_mix_up:
             return
+            
         logger.write(f'Average acc: {self.avg_acc.item():.4f}  \n')
         for group_idx in range(self.n_groups):
             group_str = self.group_str(group_idx, is_training) if 'Meta' in self.args.dataset else self.group_str(group_idx)
+            n = int(self.processed_data_counts[group_idx])
+            # follow wilds implementation to skip `Other`
+            if n == 0 or (self.args.dataset == 'FMoW' and "Other" in group_str):
+                continue
+            
             logger.write(
                 f'  {group_str}  '
-                f'[n = {int(self.processed_data_counts[group_idx])}]:\t'
+                f'[n = {n}]:\t'
                 f'loss = {self.avg_group_loss[group_idx]:.4f}  '
                 f'exp loss = {self.exp_avg_loss[group_idx]:.4f}  '
                 f'adjusted loss = {self.exp_avg_loss[group_idx] + self.adj[group_idx]/torch.sqrt(self.group_counts)[group_idx]:.4f}  '
                 f'adv prob = {self.adv_probs[group_idx]:4f}   '
                 f'acc = {self.avg_group_acc[group_idx]:.4f}\n')
+
         if self.args.dataset == 'ISIC':
             logger.write(f'roc auc = {self.roc_auc:4f}\n')
         logger.flush()

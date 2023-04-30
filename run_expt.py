@@ -106,15 +106,7 @@ if __name__=='__main__':
     logger.flush()
 
     ## Define the objective
-    if args.hinge:
-        assert args.dataset == 'CUB' # Only supports binary
-        def hinge_loss(yhat, y):
-            torch_loss = torch.nn.MarginRankingLoss(margin=1.0, reduction='none')
-            y = (y.float() * 2.0) - 1.0
-            return torch_loss(yhat[:, 1], yhat[:, 0], y)
-        criterion = hinge_loss
-    else:
-        criterion = torch.nn.CrossEntropyLoss(reduction='none')
+    criterion = torch.nn.CrossEntropyLoss(reduction='none')
 
     # Get resume information if needed
     if args.resume:
