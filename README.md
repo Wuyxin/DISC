@@ -4,7 +4,7 @@
     <br>    
 <p>
 
-# **Discover and Cure: Concept-aware Mitigation of Spurious Correlation** (ICML 2023)
+# **<u>Dis</u>cover and <u>C</u>ure: Concept-aware Mitigation of Spurious Correlation** (ICML 2023)
 
 <div align="left">
 
