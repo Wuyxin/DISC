@@ -90,7 +90,7 @@ pip install tarfile zipfile gdown # Used for data download
 (Recommended) Download all the datasets via the commands below!
 
 ```shell
-cd dataset
+cd disc
 python download_all.py
 ```
 <details>
