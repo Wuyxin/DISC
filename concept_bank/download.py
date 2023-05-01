@@ -45,5 +45,5 @@ if not osp.exists(osp.join(tmp_dir, 'synthetic_concepts_exclude_texture.zip')):
         dst_path = os.path.join(concept_root, f)
         shutil.move(src_path, dst_path)
 
-os.remove(tmp_dir)
+shutil.rmtree(tmp_dir)
 

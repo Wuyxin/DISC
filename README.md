@@ -53,8 +53,6 @@ DISC is an algorithm on image classification tasks which adaptively discovers an
 
 ### **How does DISC do it?**
 
-
-
 - Build a concept bank with multiple categories. Examples from the concept bank:
 
  <p align="center">
@@ -93,7 +91,7 @@ pip install tarfile zipfile gdown # Used for data download
 
 ```shell
 cd disc
-python download_all.py
+python download_datasets.py
 ```
 <details>
   <summary>Manual download (If auto download fails)</summary>
