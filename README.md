@@ -35,7 +35,7 @@ DISC is an algorithm on image classification tasks which adaptively discovers an
 
 <p align="center">
     <br>
-    <img src="docs/gradcam_vs_disc.jpg" width="550"/>
+    <img src="docs/gradcam_vs_disc.jpg" width="600"/>
     <br>    
 <p>
  
@@ -47,7 +47,7 @@ DISC is an algorithm on image classification tasks which adaptively discovers an
 
  <p align="center">
     <br>
-    <img src="docs/concept_sensitivity.png" width="550"/>
+    <img src="docs/concept_sensitivity.png" width="600"/>
     <br>    
 <p>
 
