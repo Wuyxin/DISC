@@ -19,7 +19,7 @@ DISC adaptively discovers and removes spurious correlations during model trainin
 
 <p align="center">
     <br>
-    <img src="docs/spurious_correlation.png" width="300"/>
+    <img src="docs/spurious_correlation.png" width="350"/>
     <br>    
 <p>
 
@@ -27,7 +27,7 @@ DISC adaptively discovers and removes spurious correlations during model trainin
 
 <p align="center">
     <br>
-    <img src="docs/result.jpg" width="500"/>
+    <img src="docs/result.jpg" width="550"/>
     <br>    
 <p>
  
@@ -37,7 +37,7 @@ DISC adaptively discovers and removes spurious correlations during model trainin
 
  <p align="center">
     <br>
-    <img src="docs/concept_sensitivity.png" width="500"/>
+    <img src="docs/concept_sensitivity.png" width="550"/>
     <br>    
 <p>
 
@@ -147,7 +147,7 @@ If you found this code/work to be useful in your own research, please considerin
 
 ```bibtex
 @inproceedings{
-    wu2023disc,
+    wu23disc,
     title={Discover and Cure: Concept-aware Mitigation of Spurious Correlation},
     author={Shirley Wu and Mert Yuksekgonul and Linjun Zhang and James Zou},
     booktitle={ICML},
