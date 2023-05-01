@@ -55,11 +55,13 @@ DISC is an algorithm on image classification tasks which adaptively discovers an
 
 - Build a concept bank with multiple categories. Examples from the concept bank:
 
+
  <p align="center">
     <br>
-    <img src="docs/concept_bank.png" width="800"/>
+    <img src="docs/concept_bank.jpg" width="800"/>
     <br>    
 <p>
+
 
 - In each iteration, discover spurious concepts by computing a metric called concept sensitivity
 - In each iteration, mix up concept images with the training dataset guided by the concept sensitivity, and update model parameters on the balanced dataset
