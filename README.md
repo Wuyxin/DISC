@@ -27,7 +27,7 @@ DISC adaptively discovers and removes spurious correlations during model trainin
 
 <p align="center">
     <br>
-    <img src="docs/result.jpg" width="550"/>
+    <img src="docs/gradcam_vs_disc.jpg" width="550"/>
     <br>    
 <p>
  
