@@ -141,7 +141,7 @@ ROOT=./DISC # Set your code root here
 python run_expt.py \
 -s confounder -d MetaDatasetCatDog -t cat -c background --lr 0.001 --batch_size 16 \
 --weight_decay 0.0001 --model resnet50 --n_epochs 100 --log_dir $ROOT/output/ \
---root_dir $ROOT/data/metashifts/MetaDatasetCatDog --seed $SEED --save_best --save_last
+--root_dir $ROOT/data/metashifts/MetaDatasetCatDog --save_best --save_last --seed $SEED 
 ```
 
 
