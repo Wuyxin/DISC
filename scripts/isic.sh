@@ -10,10 +10,10 @@ python run_expt.py -s confounder -d ISIC -t label -c hair --lr 5e-4 --batch_size
 # ERM
 GROUP=5
 ROOT=./DISC
-python run_expt.py -s confounder -d ISIC -t label -c hair --lr 0.001 --batch_size 16 --weight_decay 1e-5 --model resnet50 --n_epochs 100 --log_dir $ROOT/output/ --root_dir $ROOT/data/isic/ --save_best --save_last --seed $GROUP
+python run_expt.py -s confounder -d ISIC -t label -c hair --lr 0.001 --batch_size 16 --weight_decay 1e-5 --model resnet50 --n_epochs 100 --root_dir $ROOT/data/isic/ --log_dir $ROOT/output/ --save_best --save_last --seed $GROUP
 
 
 # ERM + aug
 GROUP=5
 ROOT=./DISC
-python run_expt.py -s confounder -d ISIC -t label -c hair --lr 0.001 --batch_size 16 --weight_decay 1e-5 --model resnet50 --n_epochs 100 --log_dir $ROOT/output/ --root_dir $ROOT/data/isic/ --save_best --save_last --seed $GROUP --augment_data
+python run_expt.py -s confounder -d ISIC -t label -c hair --lr 0.001 --batch_size 16 --weight_decay 1e-5 --model resnet50 --n_epochs 100 --root_dir $ROOT/data/isic/ --log_dir $ROOT/output/ --save_best --save_last --seed $GROUP --augment_data
