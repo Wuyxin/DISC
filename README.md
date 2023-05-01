@@ -30,7 +30,8 @@ DISC adaptively discovers and removes spurious correlations during model trainin
     <img src="docs/result.jpg" width="500"/>
     <br>    
 <p>
-- No more ambiguous interpretations! DISC tells you exactly what attributes contribute to the spurious correlation and how significant their contributions are. 
+ 
+ - No more ambiguous interpretations! DISC tells you exactly what attributes contribute to the spurious correlation and how significant their contributions are. 
 
 
 
@@ -65,7 +66,7 @@ DISC adaptively discovers and removes spurious correlations during model trainin
 <p>
 
 --------------
-## Installation
+## **Installation**
 
 ```shell
 conda create -n disc python=3.9
@@ -78,7 +79,7 @@ pip install tarfile zipfile gdown # Used for data download
 
 (Recommended) Download all the datasets via the commands below!
 
-```
+```shell
 cd dataset
 python download_all.py
 ```
@@ -99,7 +100,7 @@ python download_all.py
 
 (Recommended) Download the concept bank we have already generated via the commands below!
 
-```
+```shell
 cd concept_bank
 python download.py
 ```
@@ -118,34 +119,33 @@ python download.py
   </p>
 </details>
 
-## Train ERM
+## **Train ERM**
 We provide commands under `scripts` folder. For example, train an ERM model on MetaShift:
 
 ```shell
 SEED=0
-ROOT=DISC # Set your code root here
+ROOT=./DISC # Set your code root here
 python run_expt.py -s confounder -d MetaDatasetCatDog -t cat -c background --lr 0.001 --batch_size 16 --weight_decay 0.0001 --model resnet50 --n_epochs 100 --log_dir $ROOT/output/ --root_dir $ROOT/data/metashifts/MetaDatasetCatDog --seed $SEED --save_best --save_last
 ```
 
 
-## Train DISC
+## **Train DISC**
 
 We provide commands under `scripts` folder. For example, with a trained ERM model on MetaShift, you can train the DISC model via:
 
 ```shell
 SEED=0
 N_CLUSTERS=2
-ROOT=DISC # Set your code root here
+ROOT=./DISC # Set your code root here
 python run_expt.py -s confounder -d MetaDatasetCatDog -t cat -c background --lr 0.0005 --batch_size 16 --weight_decay 0.0001 --model resnet50 --n_epochs 100  --root_dir $ROOT/data/metashifts/MetaDatasetCatDog --log_dir $ROOT/output/ --erm_path <the erm model path ends with .pth> --concept_img_folder $ROOT/synthetic_concepts --concept_categories everything --n_clusters $N_CLUSTERS --augment_data --save_last --save_best --seed $SEED --disc 
 ```
 
-## Contact Us
 
-Free feel to create an issue if you have any questions!
+## **Reference**
 
-## Reference
+If you found this code/work to be useful in your own research, please considering citing the following:
 
-```
+```bibtex
 @inproceedings{
     wu2023disc,
     title={Discover and Cure: Concept-aware Mitigation of Spurious Correlation},
@@ -154,3 +154,6 @@ Free feel to create an issue if you have any questions!
     year={2023},
 }
 ```
+## **Contact Us**
+
+Free feel to create an issue under this repo or contact `shirwu@cs.stanford.edu` if you have any questions!

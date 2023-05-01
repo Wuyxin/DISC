@@ -5,7 +5,7 @@ import zipfile
 import tarfile
 
 # Set your ROOT here!
-ROOT = '..' # '/oak/stanford/groups/jamesz/shirwu'
+ROOT = '..' 
 
 data_root = osp.join(ROOT, 'data')
 os.makedirs(data_root, exist_ok=True)

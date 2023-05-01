@@ -4,6 +4,7 @@ from sklearn.cluster import KMeans
 from sklearn.mixture import GaussianMixture
 
 import warnings
+from numba.core.errors import NumbaWarning
 from umap import UMAP
 
 import torch

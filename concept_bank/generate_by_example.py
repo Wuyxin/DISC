@@ -19,7 +19,6 @@ def config():
     return parser.parse_args()
 
 
-strength = 0.8
 args = config()
 
 pipe = StableDiffusionPipeline.from_pretrained(
@@ -49,5 +48,5 @@ for concept in tqdm(concepts):
         input_prompt = np.random.choice([
             prompt, pluralize(prompt)], p=[0.8, 0.2])
         with autocast("cuda"):
-            image = pipe(prompt=input_prompt, strength=strength).images[0]
+            image = pipe(prompt=input_prompt).images[0]
         image.save(f"{pos_root}/{i}.png")

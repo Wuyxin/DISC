@@ -13,12 +13,11 @@ from tqdm import tqdm
 
 def config():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--n_samples", default=200, type=int)
+    parser.add_argument("--n_samples", default=1, type=int)
     parser.add_argument("--root", default='../', type=str) # root to store the generated concept bank
     return parser.parse_args()
 
 
-strength = 0.8
 args = config()
 
 pipe = StableDiffusionPipeline.from_pretrained(
@@ -36,11 +35,8 @@ for concept in tqdm(concepts):
     pos_root = os.path.join(args.root, f"synthetic_concepts/{concept}/positives")
 
     if os.path.exists(f'{pos_root}/0.png'):
-        print(pos_root)
+        print(f'Skip {concept} due to existing images')
         continue 
-    else:
-        print(concept)
-        continue
     os.makedirs(pos_root, exist_ok=True)
     if concept[-2:] == '_s':
         prompt = concept[:-2]
@@ -53,5 +49,5 @@ for concept in tqdm(concepts):
         input_prompt = np.random.choice([
             prompt, pluralize(prompt)], p=[0.8, 0.2])
         with autocast("cuda"):
-            image = pipe(prompt=input_prompt, strength=strength).images[0]
+            image = pipe(prompt=input_prompt).images[0]
         image.save(f"{pos_root}/{i}.png")
