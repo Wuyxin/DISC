@@ -7,11 +7,11 @@ import torch
 import torchvision.transforms as transforms
 from torch.utils.data import Dataset
 
-from models import model_attributes
-from dataset.cub_dataset import CUBDataset
-from dataset.dro_dataset import DRODataset
-from dataset.meta_dataset_cat_dog import MetaDatasetCatDog
-from dataset.isic_dataset import ISICDataset
+from disc.models import model_attributes
+from disc.dataset.cub_dataset import CUBDataset
+from disc.dataset.dro_dataset import DRODataset
+from disc.dataset.meta_dataset_cat_dog import MetaDatasetCatDog
+from disc.dataset.isic_dataset import ISICDataset
 
 
 """

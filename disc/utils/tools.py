@@ -12,9 +12,9 @@ from collections import OrderedDict
 from torch.optim.lr_scheduler import StepLR
 from transformers import (get_linear_schedule_with_warmup,
                           get_cosine_schedule_with_warmup)
-from models import model_attributes
 import torchvision
-from models import ResNet50
+from disc.models import model_attributes
+from disc.models import ResNet50
 
 
 def check_args(args):

@@ -4,9 +4,9 @@ import os.path as osp
 import numpy as np
 from tqdm import tqdm
 from datetime import datetime
-from models import NetBottom, NetTop
-from concept_utils.concept_bank import learn_concept_bank, ConceptBank
-from concept_utils.cce_utils import conceptual_counterfactual
+from disc.models import NetBottom, NetTop
+from disc.concept_utils.concept_bank import learn_concept_bank, ConceptBank
+from disc.concept_utils.cce_utils import conceptual_counterfactual
 
 
 def filter_relevant_concepts(

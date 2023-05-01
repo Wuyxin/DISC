@@ -8,8 +8,8 @@ import torchvision
 import torchvision.transforms as transforms
 from torch.utils.data import Dataset, Subset
 
-from models import model_attributes
-from dataset.dro_dataset import DRODataset
+from disc.models import model_attributes
+from disc.dataset.dro_dataset import DRODataset
 
 
 """

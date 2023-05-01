@@ -7,18 +7,18 @@ from tqdm import tqdm
 import torch
 import torch.nn.functional as F
 
-from utils.loss import LossComputer
-from utils.cluster import cluter_assignment
-from utils.tools import CSVLogger, set_required_grad, get_optimizer, get_scheduler
+from disc.utils.loss import LossComputer
+from disc.utils.cluster import cluter_assignment
+from disc.utils.tools import CSVLogger, set_required_grad, get_optimizer, get_scheduler
 
-from models import NetBottom, NetTop
-from run_epoch_disc import run_epoch_disc
-from run_epoch_baselines import run_epoch, run_epoch_mix_every_batch
+from disc.models import NetBottom, NetTop
+from disc.run_epoch_disc import run_epoch_disc
+from disc.run_epoch_baselines import run_epoch, run_epoch_mix_every_batch
 
-from dataset.folds import Subset
-from dataset.dro_dataset import DRODataset
-from concept_utils.concept_dataset import ConceptDataset
-from concept_utils.filter_concepts import filter_relevant_concepts
+from disc.dataset.folds import Subset
+from disc.dataset.dro_dataset import DRODataset
+from disc.concept_utils.concept_dataset import ConceptDataset
+from disc.concept_utils.filter_concepts import filter_relevant_concepts
 
 
 def train(

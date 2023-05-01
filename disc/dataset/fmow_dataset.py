@@ -6,10 +6,10 @@ import torch
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 from torch.utils.data import Subset, DataLoader
-
-from dataset.load_data import dataset_attributes
 from wilds.datasets.fmow_dataset import FMoWDataset
-from dataset.transform import transform_dict
+
+from disc.dataset.load_data import dataset_attributes
+from disc.dataset.transform import transform_dict
 
 
 def prepare_fmow_data(args):

@@ -1,8 +1,8 @@
 import torch
 from tqdm import tqdm
 from collections import OrderedDict
-from models import NetBottom, NetTop
-from utils.tools import set_required_grad
+from disc.models import NetBottom, NetTop
+from disc.utils.tools import set_required_grad
 
 
 def run_one_step_and_get_cts(

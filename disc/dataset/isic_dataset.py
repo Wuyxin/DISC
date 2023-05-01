@@ -9,9 +9,9 @@ from sklearn.model_selection import train_test_split
 import torch
 import torchvision.transforms as transforms
 
-from models import model_attributes
-from dataset.confounder_dataset import ConfounderDataset
-from dataset.transform import get_transform_ISIC
+from disc.models import model_attributes
+from disc.dataset.confounder_dataset import ConfounderDataset
+from disc.dataset.transform import get_transform_ISIC
 
 
 class ISICDataset(ConfounderDataset):

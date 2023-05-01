@@ -1,6 +1,6 @@
 
 import torchvision.transforms as transforms
-from models import model_attributes
+from disc.models import model_attributes
 
 
 """

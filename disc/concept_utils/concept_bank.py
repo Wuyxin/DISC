@@ -8,14 +8,13 @@ import os.path as osp
 from tqdm import tqdm
 from glob import glob
 import numpy as np
-
-
-from concept_utils.cav_utils import ListDataset, get_cavs
-from models import NetBottom, NetTop
-from dataset.transform import transform_dict
 from itertools import product
 from collections import defaultdict
 from torch.multiprocessing import Manager, Pool, cpu_count
+
+from disc.concept_utils.cav_utils import ListDataset, get_cavs
+from disc.models import NetBottom, NetTop
+from disc.dataset.transform import transform_dict
 
     
 class ConceptBank:

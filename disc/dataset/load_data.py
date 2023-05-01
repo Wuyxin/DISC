@@ -6,8 +6,8 @@ import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 from torch.utils.data import Subset
 
-from dataset.confounder_utils import prepare_confounder_data
-from dataset.label_shift_utils import prepare_label_shift_data
+from disc.dataset.confounder_utils import prepare_confounder_data
+from disc.dataset.label_shift_utils import prepare_label_shift_data
 
 root_dir = './data/'
 dataset_attributes = {

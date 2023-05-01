@@ -5,10 +5,9 @@ import pdb
 import bisect
 import warnings
 
-from torch._utils import _accumulate
 from torch import randperm, default_generator
 
-from dataset import dro_dataset
+from disc.dataset import dro_dataset
 
 
 class Subset(torch.utils.data.Dataset):

@@ -8,8 +8,8 @@ import torch
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
 
-from models import model_attributes
-from dataset.folds import Subset
+from disc.models import model_attributes
+from disc.dataset.folds import Subset
 
 
 class ConfounderDataset(Dataset):

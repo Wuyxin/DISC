@@ -8,9 +8,9 @@ import torch
 import torchvision.transforms as transforms
 from torch.utils.data import Dataset, Subset
 
-from models import model_attributes
-from dataset.confounder_dataset import ConfounderDataset
-from dataset.transform import get_transform_cub
+from disc.models import model_attributes
+from disc.dataset.confounder_dataset import ConfounderDataset
+from disc.dataset.transform import get_transform_cub
 
 
 class CUBDataset(ConfounderDataset):

@@ -11,8 +11,8 @@ import torch
 import os
 import os.path as osp
 from tqdm import tqdm
-from models import NetBottom, NetTop
-from concept_utils.cav_utils import get_embeddings
+from disc.models import NetBottom, NetTop
+from disc.concept_utils.cav_utils import get_embeddings
 
 
 def cluter_assignment(args, train_data, model, logger):
