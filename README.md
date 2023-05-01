@@ -21,6 +21,8 @@ DISC adaptively discovers and removes spurious correlations during model trainin
 
 ### **Why DISC?**
 
+- 🔑 Effectively remove strong spurious correlation and make models generalize better! Go for the green decision boundary! 
+
 
 <p align="center">
     <br>
@@ -28,7 +30,8 @@ DISC adaptively discovers and removes spurious correlations during model trainin
     <br>    
 <p>
 
-- 🔑 Effectively remove strong spurious correlation and make models generalize better! Go for the green decision boundary! 
+ - 🔎 No more ambiguous interpretations! DISC tells you exactly what attributes contribute to the spurious correlation and how significant their contributions are. 
+
 
 <p align="center">
     <br>
@@ -36,7 +39,9 @@ DISC adaptively discovers and removes spurious correlations during model trainin
     <br>    
 <p>
  
- - 🔎 No more ambiguous interpretations! DISC tells you exactly what attributes contribute to the spurious correlation and how significant their contributions are. 
+
+
+- 🌱 Monitor how models learn spurious correlations!
 
 
 
@@ -45,9 +50,6 @@ DISC adaptively discovers and removes spurious correlations during model trainin
     <img src="docs/concept_sensitivity.png" width="550"/>
     <br>    
 <p>
-
-- 🌱 Monitor how models learn spurious correlations!
-
 
 ### **How does DISC do it?**
 
