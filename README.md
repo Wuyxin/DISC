@@ -175,5 +175,5 @@ Free feel to create an issue under this repo or contact `shirwu@cs.stanford.edu`
 
 
 ## **TODO List**
-- Public pretrained ERM models
-- Public DISC models and training log
+- Make pretrained ERM models public
+- Make DISC models and training log public
