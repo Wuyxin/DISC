@@ -132,7 +132,7 @@ python download.py
 </details>
 
 
-# **Begin Training**
+# **Run the Training**
 
 ## **ERM**
 We provide commands under `scripts` folder. For example, train an ERM model on MetaShift:
