@@ -6,7 +6,12 @@
 
 # **Discover and Cure: Concept-aware Mitigation of Spurious Correlation** (ICML 2023)
 
-Access our paper [here](https://drive.google.com/drive/folders/1Ll3-4TNU_ZRKR2VoptUTnOGTDnGDixNt?usp=sharing). 
+<div align="left">
+
+[![](https://img.shields.io/badge/paper-pink?style=plastic&logo=GitBook)](https://github.com/Wuyxin/DISC/blob/master/docs/DISC_ICML23.pdf)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+</div>
 
 # **Overview**
 
