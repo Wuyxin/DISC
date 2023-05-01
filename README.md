@@ -73,7 +73,10 @@ DISC adaptively discovers and removes spurious correlations during model trainin
 <p>
 
 --------------
+# **Get Started**
+
 ## **Installation**
+See `requirements.txt` or install the environment via
 
 ```shell
 conda create -n disc python=3.9
@@ -126,7 +129,10 @@ python download.py
   </p>
 </details>
 
-## **Train ERM**
+
+# **Begin Training**
+
+## **ERM**
 We provide commands under `scripts` folder. For example, train an ERM model on MetaShift:
 
 ```shell
@@ -136,7 +142,7 @@ python run_expt.py -s confounder -d MetaDatasetCatDog -t cat -c background --lr 
 ```
 
 
-## **Train DISC**
+## **DISC**
 
 We provide commands under `scripts` folder. For example, with a trained ERM model on MetaShift, you can train the DISC model via:
 
@@ -164,3 +170,8 @@ If you found this code/work to be useful in your own research, please considerin
 ## **Contact Us**
 
 Free feel to create an issue under this repo or contact `shirwu@cs.stanford.edu` if you have any questions!
+
+
+## **TODO List**
+- Public pretrained ERM models
+- Public DISC models and training log
