@@ -26,7 +26,7 @@ DISC is an algorithm on image classification tasks which adaptively discovers an
 
 <p align="center">
     <br>
-    <img src="docs/spurious_correlation.png" width="350"/>
+    <img src="docs/spurious_correlation.png" width="400"/>
     <br>    
 <p>
 
