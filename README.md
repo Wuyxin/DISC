@@ -138,7 +138,10 @@ We provide commands under `scripts` folder. For example, train an ERM model on M
 ```shell
 SEED=0
 ROOT=./DISC # Set your code root here
-python run_expt.py -s confounder -d MetaDatasetCatDog -t cat -c background --lr 0.001 --batch_size 16 --weight_decay 0.0001 --model resnet50 --n_epochs 100 --log_dir $ROOT/output/ --root_dir $ROOT/data/metashifts/MetaDatasetCatDog --seed $SEED --save_best --save_last
+python run_expt.py \
+-s confounder -d MetaDatasetCatDog -t cat -c background --lr 0.001 --batch_size 16 \
+--weight_decay 0.0001 --model resnet50 --n_epochs 100 --log_dir $ROOT/output/ \
+--root_dir $ROOT/data/metashifts/MetaDatasetCatDog --seed $SEED --save_best --save_last
 ```
 
 
@@ -150,7 +153,13 @@ We provide commands under `scripts` folder. For example, with a trained ERM mode
 SEED=0
 N_CLUSTERS=2
 ROOT=./DISC # Set your code root here
-python run_expt.py -s confounder -d MetaDatasetCatDog -t cat -c background --lr 0.0005 --batch_size 16 --weight_decay 0.0001 --model resnet50 --n_epochs 100  --root_dir $ROOT/data/metashifts/MetaDatasetCatDog --log_dir $ROOT/output/ --erm_path <the erm model path ends with .pth> --concept_img_folder $ROOT/synthetic_concepts --concept_categories everything --n_clusters $N_CLUSTERS --augment_data --save_last --save_best --seed $SEED --disc 
+python run_expt.py \
+-s confounder -d MetaDatasetCatDog -t cat -c background --lr 0.0005 --batch_size 16 \
+--weight_decay 0.0001 --model resnet50 --n_epochs 100  \
+--root_dir $ROOT/data/metashifts/MetaDatasetCatDog \
+--log_dir $ROOT/output/ --erm_path <the erm model path ends with .pth> \
+--concept_img_folder $ROOT/synthetic_concepts --concept_categories everything \
+--n_clusters $N_CLUSTERS --augment_data --save_last --save_best --seed $SEED --disc 
 ```
 
 
