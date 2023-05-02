@@ -8,7 +8,7 @@
 
 <div align="left">
 
-[![](https://img.shields.io/badge/paper-pink?style=plastic&logo=GitBook)](https://github.com/Wuyxin/DISC/blob/master/docs/DISC_ICML23.pdf)
+[![](https://img.shields.io/badge/paper-pink?style=plastic&logo=GitBook)](https://arxiv.org/abs/2305.00650)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 </div>
