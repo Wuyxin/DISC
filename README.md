@@ -72,7 +72,7 @@ DISC is an algorithm on image classification tasks which adaptively discovers an
     <br>    
 <p>
 
-See [our paper](https://github.com/Wuyxin/DISC/blob/master/docs/DISC_ICML23.pdf) for details!
+See [our paper](https://arxiv.org/abs/2305.00650) for details!
 
 --------------
 # **Get Started**
