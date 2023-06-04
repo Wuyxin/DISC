@@ -19,6 +19,7 @@ def filter_relevant_concepts(
         model (nn.Module): The model in the current training epoch. 
         dataset (Dataset): The training dataset
         temperature (float, optional): A hyperparameter used to control the selection
+    
     Return:
         concept_relevance (dict, {class_0: (concept_names, concept_probs), ...)}),
                           where concept_probs indicate the concept importance

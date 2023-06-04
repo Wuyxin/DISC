@@ -1,5 +1,5 @@
 # DISC
-# Note here GROUP \in [1, 2, 3, 4, 5] 
+# Note that GROUP \in [1, 2, 3, 4, 5] 
 # which indicates the id of the trap-sets
 GROUP=1
 N_CLUSTERS=3

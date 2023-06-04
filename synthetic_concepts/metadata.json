@@ -28,6 +28,7 @@
         "tree",
         "water"
     ],
+    
     "city": [
         "awning",
         "base",
@@ -43,6 +44,7 @@
         "snow",
         "street_s"
     ],
+
     "color": [
         "blackness",
         "blueness",
@@ -50,6 +52,7 @@
         "redness",
         "whiteness"
     ],
+
     "texture": [
         "concrete",
         "granite",
@@ -105,6 +108,7 @@
         "pitted",
         "freckled"
     ],
+
     "household": [
         "air_conditioner",
         "apron",
@@ -160,6 +164,7 @@
         "stairs",
         "toilet"
     ],
+
     "others": [
         "ashcan",
         "airplane",

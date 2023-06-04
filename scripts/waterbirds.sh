@@ -15,4 +15,3 @@ python run_expt.py -s confounder -d CUB -t waterbird_complete95 -c forest2water2
 SEED=0
 ROOT=./DISC
 python run_expt.py -s confounder -d CUB -t waterbird_complete95 -c forest2water2 --lr 0.001 --batch_size 32 --weight_decay 0.0001 --model resnet50 --n_epochs 300 --root_dir $ROOT/data/cub --log_dir $ROOT/output/waterbirds/ERM_aug --augment_data --save_best --save_last
-

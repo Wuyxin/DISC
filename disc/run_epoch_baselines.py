@@ -161,7 +161,6 @@ def run_epoch(
         scheduler.step()
                 
 
-
 def split_into_groups(g):
     """
     Args:
@@ -204,6 +203,7 @@ def irm_penalty(losses, scale):
     grad_2 = torch.autograd.grad(losses[1::2].mean(), [scale], create_graph=True)[0]
     result = torch.sum(grad_1 * grad_2)
     return result
+
 
 def fish_step(meta_weights, inner_weights, meta_lr):
     meta_weights, weights = ParamDict(meta_weights), ParamDict(inner_weights)

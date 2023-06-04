@@ -17,6 +17,7 @@ def run_one_step_and_get_cts(
         loader (Dataloader): The training dataloader
         loss_computer (LossComputer): Loss computer defined in utils/loss.py
         concept_bank (ConceptBank): Concept bank defined in concept_utils/concept_bank.py
+    
     Return:
         score (list, list), each concept and the corresponding concept scores
     '''

@@ -139,3 +139,4 @@ if __name__=='__main__':
     metric = 'roc_auc' if args.dataset == 'ISIC' else 'worst_group_acc'
     idx = np.argmax(val_csv[metric].values)
     logger.write(str(test_csv[[metric, 'mean_differences', "group_avg_acc", "avg_acc"]].iloc[idx]))
+    

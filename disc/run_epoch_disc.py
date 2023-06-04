@@ -86,7 +86,7 @@ def run_epoch_disc(
         concept_data_iter = {}
         for batch_idx, batch in enumerate(prog_bar_loader):    
             if args.dataset == 'FMoW':
-                class_enum = np.random.choice(args.n_classes, 2)
+                class_enum = np.random.choice(args.n_classes, 3)
             else:
                 class_enum = range(args.n_classes)
             for c in class_enum:
@@ -139,4 +139,3 @@ def run_epoch_disc(
             loss_computer.log_stats(logger, is_training)
             if is_training:
                 loss_computer.reset_stats()
-        

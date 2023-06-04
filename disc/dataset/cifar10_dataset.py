@@ -95,4 +95,3 @@ def prepare_cifar10_data(args):
     train_data.get_label_array = lambda *args, **kwargs: np.array(train_targets)
 
     return train_data, val_data, ood_test_data
-    

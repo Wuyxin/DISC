@@ -4,7 +4,7 @@ import gdown
 import zipfile
 import tarfile
 
-# Set your ROOT here!
+# Set your ROOT
 ROOT = '..' 
 
 data_root = osp.join(ROOT, 'data')
@@ -43,6 +43,3 @@ if not osp.exists(osp.join(data_root, 'CIFAR-10-C')):
     file = tarfile.open(osp.join(data_root, 'CIFAR-10-C.tar'))
     file.extractall(data_root)
     file.close()
-
-
-
