@@ -8,13 +8,26 @@
 
 <div align="left">
 
-[![](https://img.shields.io/badge/paper-pink?style=plastic&logo=GitBook)](https://arxiv.org/abs/2305.00650)
+[![](https://img.shields.io/badge/Paper-pink?style=plastic&logo=GitBook)](https://arxiv.org/abs/2305.00650)
 [![](https://img.shields.io/badge/Twitter-pink?style=plastic&logo=twitter)](https://twitter.com/ShirleyYXWu/status/1653594075919192065)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 </div>
 
-# **Overview**
+## **Reference**
+
+If you found this code/work useful in your own research, please considering citing the following:
+
+```bibtex
+@inproceedings{
+    wu23disc,
+    title={Discover and Cure: Concept-aware Mitigation of Spurious Correlation},
+    author={Shirley Wu and Mert Yuksekgonul and Linjun Zhang and James Zou},
+    booktitle={ICML},
+    year={2023},
+}
+```
+## **Overview**
 
 ### **What is DISC?**
 
@@ -76,9 +89,9 @@
 See [our paper](https://arxiv.org/abs/2305.00650) for details!
 
 --------------
-# **Get Started**
+## **Get Started**
 
-## **Installation**
+### **Installation**
 See `requirements.txt` or install the environment via
 
 ```shell
@@ -88,7 +101,7 @@ pip install scikit-learn transformers wilds umap-learn diffusers nltk
 pip install tarfile zipfile gdown # Used for data download
 ```
 
-## **Data download**
+### **Data download**
 
 (Recommended) Download all the datasets via the commands below!
 
@@ -109,7 +122,7 @@ python download_datasets.py
   </p>
 </details>
 
-## **Prepare Concept Bank**
+### **Prepare Concept Bank**
 
 (Recommended) Download the concept bank we have already generated via the commands below!
 
@@ -133,9 +146,9 @@ python download.py
 </details>
 
 
-# **Run the Training Process**
+## **Run the Training Process**
 
-## **ERM**
+### **ERM**
 We provide commands under `scripts` folder. For example, train an ERM model on MetaShift:
 
 ```shell
@@ -148,7 +161,7 @@ python run_expt.py \
 ```
 
 
-## **DISC**
+### **DISC**
 
 We provide commands under `scripts` folder. For example, with a trained ERM model on MetaShift, you can train the DISC model via:
 
@@ -166,24 +179,11 @@ python run_expt.py \
 ```
 
 
-## **Reference**
-
-If you found this code/work to be useful in your own research, please considering citing the following:
-
-```bibtex
-@inproceedings{
-    wu23disc,
-    title={Discover and Cure: Concept-aware Mitigation of Spurious Correlation},
-    author={Shirley Wu and Mert Yuksekgonul and Linjun Zhang and James Zou},
-    booktitle={ICML},
-    year={2023},
-}
-```
-## **Contact Us**
+### **Contact Us**
 
 Free feel to create an issue under this repo or contact `shirwu@cs.stanford.edu` if you have any questions!
 
 
-## **TODO List**
+### **TODO List**
 - Make pretrained ERM models public
 - Make DISC models and training log public
