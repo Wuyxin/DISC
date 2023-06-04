@@ -49,7 +49,7 @@ If you found this code/work useful in your own research, please considering citi
 
 <p align="center">
     <br>
-    <img src="docs/gradcam_vs_disc.jpg" width="600"/>
+    <img src="docs/gradcam_vs_disc.jpg" width="500"/>
     <br>    
 <p>
  
@@ -61,7 +61,7 @@ If you found this code/work useful in your own research, please considering citi
 
  <p align="center">
     <br>
-    <img src="docs/concept_sensitivity.png" width="600"/>
+    <img src="docs/concept_sensitivity.png" width="500"/>
     <br>    
 <p>
 
@@ -72,7 +72,7 @@ If you found this code/work useful in your own research, please considering citi
 
  <p align="center">
     <br>
-    <img src="docs/concept_bank.jpg" width="800"/>
+    <img src="docs/concept_bank.jpg" width="700"/>
     <br>    
 <p>
 
