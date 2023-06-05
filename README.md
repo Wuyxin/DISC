@@ -67,24 +67,26 @@ If you found this code/work useful in your own research, please considering citi
 
 ### **How does DISC do it?**
 
-- Build a concept bank with multiple categories. Examples from the concept bank:
+ <p align="center">
+    <br>
+    <img src="docs/neat_framework.png" width="800"/>
+    <br>    
+<p>
+
+- Build a concept bank with multiple categories. 
+
+<!-- Examples from the concept bank:
 
 
  <p align="center">
     <br>
-    <img src="docs/concept_bank.jpg" width="700"/>
+    <img src="docs/concept_bank.jpg" width="650"/>
     <br>    
-<p>
+<p> -->
 
 
-- In each iteration, discover spurious concepts by computing a metric called concept sensitivity
-- In each iteration, mix up concept images with the training dataset guided by the concept sensitivity, and update model parameters on the balanced dataset
-
- <p align="center">
-    <br>
-    <img src="docs/framework.png" width="800"/>
-    <br>    
-<p>
+- In each iteration, discover spurious concepts by computing concept sensitivity.
+- In each iteration, mix up concept images with the training dataset guided by the concept sensitivity, and update model parameters on the balanced dataset.
 
 See [our paper](https://arxiv.org/abs/2305.00650) for details!
 
