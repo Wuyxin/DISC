@@ -1,0 +1,11 @@
+Class(0): 
+# Pos: 613, # Neg: 504 
+[('pillow', 0.018), ('desk', 0.0164), ('dining_room_s', 0.0162), ('bedclothes', 0.0152), ('cat', 0.015), ('back_pillow', 0.0148), ('keyboard', 0.0122), ('stained', 0.0122), ('bathtub', 0.012), ('marbled', 0.0117)]
+Class(1): 
+# Pos: 510, # Neg: 506 
+[('street_s', 0.0182), ('fence', 0.0174), ('muzzle', 0.0173), ('bamboo', 0.0161), ('bicycle', 0.0161), ('harbor', 0.0144), ('chain_wheel', 0.0136), ('handle_bar', 0.0126), ('building', 0.0125), ('bucket', 0.0116)]
+
+Filtered Class(0): 
+[('pillow', 0.018), ('desk', 0.0164), ('dining_room_s', 0.0162), ('bedclothes', 0.0152), ('cat', 0.015), ('back_pillow', 0.0148), ('keyboard', 0.0122), ('stained', 0.0122), ('bathtub', 0.012), ('marbled', 0.0117), ('carpet', 0.0116), ('computer', 0.0113), ('inside_arm', 0.0105), ('plant', 0.0103), ('bedroom_s', 0.0102), ('napkin', 0.0098), ('microwave', 0.0096), ('drinking_glass', 0.0095), ('chest_of_drawers', 0.0094), ('swirly', 0.0094)]
+Filtered Class(1): 
+[('street_s', 0.0182), ('fence', 0.0174), ('muzzle', 0.0173), ('bamboo', 0.0161), ('bicycle', 0.0161), ('harbor', 0.0144), ('chain_wheel', 0.0136), ('handle_bar', 0.0126), ('building', 0.0125), ('bucket', 0.0116), ('coach', 0.0113), ('bench', 0.0112), ('manhole', 0.0107), ('basket', 0.0105), ('bus', 0.0104), ('ashcan', 0.0102), ('grass', 0.0101), ('engine', 0.0101), ('clock', 0.0099), ('pillar', 0.0091)]
