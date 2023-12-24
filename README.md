@@ -16,7 +16,7 @@
 
 ## **Reference**
 
-If you found this code/work useful in your own research, please considering citing the following:
+If you found this code/work useful in your own research, please consider citing the following:
 
 ```bibtex
 @inproceedings{
