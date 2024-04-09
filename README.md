@@ -186,6 +186,3 @@ python run_expt.py \
 Free feel to create an issue under this repo or contact `shirwu@cs.stanford.edu` if you have any questions!
 
 
-### **TODO List**
-- Make pretrained ERM models public
-- Make DISC models and training log public
