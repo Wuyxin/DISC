@@ -145,14 +145,14 @@ def run_epoch(
                 optimizer.step()
 
             if is_training and (batch_idx+1) % log_every==0:
-                csv_logger.log(epoch, batch_idx, loss_computer.get_stats(model, args))
+                csv_logger.log(epoch, batch_idx, loss_computer.get_stats(model, args, is_training))
                 csv_logger.flush()
                 loss_computer.log_stats(logger, is_training)
                 loss_computer.reset_stats()
 
         if (not is_training) or loss_computer.batch_count > 0:
             model = model.cuda()
-            csv_logger.log(epoch, batch_idx, loss_computer.get_stats(model, args))
+            csv_logger.log(epoch, batch_idx, loss_computer.get_stats(model, args, is_training))
             csv_logger.flush()
             loss_computer.log_stats(logger, is_training)
             if is_training:

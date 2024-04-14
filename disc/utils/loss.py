@@ -184,7 +184,7 @@ class LossComputer:
         stats_dict['reg_loss'] = args.weight_decay / 2 * model_norm_sq.item()
         return stats_dict
 
-    def get_stats(self, model=None, args=None):
+    def get_stats(self, model=None, args=None, is_training=True):
         stats_dict = {}
         accs = []
         

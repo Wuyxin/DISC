@@ -61,6 +61,7 @@ if __name__=='__main__':
             seed=args.seed
         )
     if args.lisa_mix_up:
+        train_loader = {}
         for i in range(train_data.n_groups):
             idxes = np.where(train_data.get_group_array() == i)[0]
             if len(idxes) == 0: 
