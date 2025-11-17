@@ -12,7 +12,7 @@ os.makedirs(data_root, exist_ok=True)
 
 # Download metashift
 output = 'metashifts.zip'
-url = 'https://drive.google.com/uc?id=1WySOxBRkxAUlSokgZrC-0JaWZwcG5UMT'
+url = 'https://drive.google.com/uc?id=11ekqHZcYcTRsWoChXPvEje4ShDGKNsnl'
 if not osp.exists(osp.join(data_root, 'metashifts')):
     gdown.download(url, osp.join(data_root, output), quiet=False)
     with zipfile.ZipFile(osp.join(data_root, output), 'r') as zip_ref:
