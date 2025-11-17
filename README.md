@@ -115,12 +115,12 @@ python download_datasets.py
   <summary>Manual download (If auto download fails)</summary>
   <p>
 
-  - **MetaShift**: Download the dataset from [here](https://drive.google.com/drive/folders/1Ll3-4TNU_ZRKR2VoptUTnOGTDnGDixNt?usp=sharing). Unzipping this should result in a folder `metashifts`, which should be moved as `$ROOT/data/metashifts` depending on your root directory.
+  - **MetaShift**: Download the dataset from [here](https://drive.google.com/file/d/1WySOxBRkxAUlSokgZrC-0JaWZwcG5UMT/view?usp=sharing). Unzipping this should result in a folder `metashifts`, which should be moved as `$ROOT/data/metashifts` depending on your root directory.
 
   - **Waterbirds**: Download the dataset from [here](https://nlp.stanford.edu/data/dro/waterbird_complete95_forest2water2.tar.gz). Unzipping this should result in a folder `waterbird_complete95_forest2water2`. Place this folder under `$ROOT/data/cub/`.
   -  **FMoW**: Dataset download is automatic and can be found in `$ROOT/data/fmow/fmow_v1.1`. We recommend following the setup instructions provided by the official WILDS [website](https://wilds.stanford.edu/get_started/).
 
-  -  **ISIC**: Download the dataset from [here](https://drive.google.com/drive/folders/1Ll3-4TNU_ZRKR2VoptUTnOGTDnGDixNt?usp=sharing). Unzipping this should result in a folder `isic`, which should be moved as `$ROOT/data/isic` depending on your root directory.
+  -  **ISIC**: Download the dataset from [here](https://drive.google.com/file/d/1Os34EapIAJM34DrwZMw2rRRJij3HAUDV/view?usp=sharing). Unzipping this should result in a folder `isic`, which should be moved as `$ROOT/data/isic` depending on your root directory.
   </p>
 </details>
 
